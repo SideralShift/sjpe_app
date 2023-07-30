@@ -6,46 +6,45 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            /*Image.asset(
-              'assets/logo.png', // Si tienes un logo, coloca la imagen en la carpeta 'assets' y referencia la ruta aquí.
-              height: 100,
-            ),*/
-            const SizedBox(height: 20),
-            TextFormField(
-              decoration: const InputDecoration(labelText: 'Correo'),
-              style: TextStyle(fontSize: 22),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 50),
+              child: TextFormField(
+                decoration: const InputDecoration(labelText: 'Correo'),
+                style: const TextStyle(fontSize: 22),
+              ),
             ),
-            const SizedBox(height: 20),
-            TextFormField(
-              obscureText: true,
-              decoration: const InputDecoration(labelText: 'Contraseña'),
-              style: TextStyle(fontSize: 22),
+            const SizedBox(height: 45),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 50),
+              child: TextFormField(
+                obscureText: true,
+                decoration: const InputDecoration(labelText: 'Contraseña'),
+                style: const TextStyle(fontSize: 22),
+              ),
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Aquí irá el código para validar el inicio de sesión.
-              },
-              style: ElevatedButton.styleFrom(
+            const SizedBox(height: 100),
+            SizedBox(
+              width: 200, // Ajusta el ancho del botón a 200 puntos
+              child: ElevatedButton(
+                onPressed: () {
+                  // Aquí irá el código para validar el inicio de sesión.
+                },
+                style: ElevatedButton.styleFrom(
                   textStyle: const TextStyle(fontSize: 20),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50))),
-              child: const Text('Login'),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                child: const Text('Login'),
+              ),
             ),
           ],
         ),
       ),
     );
   }
-}
-
-void main() {
-  runApp(const MaterialApp(
-    home: LoginScreen(),
-  ));
 }

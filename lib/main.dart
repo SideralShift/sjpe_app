@@ -1,7 +1,10 @@
+import 'package:app/login.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MaterialApp(
+    home: LoginScreen(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

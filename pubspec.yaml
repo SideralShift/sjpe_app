@@ -38,6 +38,8 @@ dependencies:
   firebase_core: ^2.15.0
   flutterfire_cli: ^0.2.7
   firebase_auth: ^4.7.2
+  google_fonts: ^4.0.4
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
@@ -65,6 +67,10 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+
+  assets:
+  - lib/assets/
+  - lib/assets/user_images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -1,4 +1,5 @@
-import 'package:app/widgets/announcements_screen.dart';
+import 'package:app/utils/app_colors.dart';
+import 'package:app/widgets/app.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:app/login.dart';
@@ -11,6 +12,9 @@ Future<void> main() async {
   await initializeDateFormatting('es_ES', null);
 
   runApp(MaterialApp(
-    home: AnnouncementsScreen(),
+    theme: ThemeData(
+      scaffoldBackgroundColor: AppColors.mainBackgroundColor 
+    ),
+    home: App(),
   ));
 }

@@ -1,3 +1,4 @@
+import 'package:app/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -5,19 +6,16 @@ class ToolBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      elevation: 2,
-      titleSpacing: 0,
+      elevation: 0,
+      titleSpacing: 10,
       centerTitle: false,
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.mainBackgroundColor,
       title: Row(
         children: [
-          Container(
-            padding: const EdgeInsets.only(left: 10),
-            child: const Image(
-              height: 42,
-              width: 42,
-              image: AssetImage('lib/assets/logo-sjpe.png'),
-            ),
+          const Image(
+            height: 42,
+            width: 42,
+            image: AssetImage('lib/assets/logo-sjpe.png'),
           ),
           Text('SJPE',
               style: GoogleFonts.openSans(
@@ -27,16 +25,17 @@ class ToolBar extends StatelessWidget implements PreferredSizeWidget {
                   fontSize: 26)),
         ],
       ),
-      actions: [
-        Container(
-            margin: const EdgeInsets.only(right: 12),
-            child: const CircleAvatar(
-              radius:
-                  20.0, // Adjust this value to change the size of the CircleAvatar
-              backgroundColor: Colors
-                  .red, // Customize the background color of the CircleAvatar
-              foregroundImage: AssetImage('lib/assets/user_images/jacob.jpg'),
-            ))
+      actions: const [
+        Padding(
+          padding: EdgeInsets.only(right: 12),
+          child: CircleAvatar(
+            radius:
+                20.0, // Adjust this value to change the size of the CircleAvatar
+            backgroundColor: Colors
+                .red, // Customize the background color of the CircleAvatar
+            foregroundImage: AssetImage('lib/assets/user_images/jacob.jpg'),
+          ),
+        )
       ],
     );
   }

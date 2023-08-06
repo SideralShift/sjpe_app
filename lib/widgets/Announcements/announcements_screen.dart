@@ -1,14 +1,12 @@
-import 'package:app/models/announcement.dart';
 import 'package:app/models/person.dart';
 import 'package:app/models/user.dart';
-import 'package:app/widgets/announcement_card.dart';
-import 'package:app/widgets/tool_bar.dart';
+import 'package:app/widgets/Announcements/announcement_card.dart';
 import 'package:flutter/material.dart';
+import 'package:app/models/announcement.dart';
 
 class AnnouncementsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     Person person = Person(name: 'Salvador', lastName: 'Mata');
     User user =
         User(person: person, roles: ['Presidente'], mainRole: 'Presidente');
@@ -30,35 +28,20 @@ class AnnouncementsScreen extends StatelessWidget {
             'PdD jovenes el fin de semana estaremos vendiendo barbacoa, estaremos levantando pedidos el dia de mañana',
         user: user2);
     announcement2.createdAt = DateTime(2023, 3, 10, 19, 30);
-
-    return Scaffold(
-      appBar: ToolBar(),
-      body: Column(
-        children: [
-          AnnouncementCard(announcement: announcement),
-          AnnouncementCard(announcement: announcement2)
-        ],
+    
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Center(
+        child: FractionallySizedBox(
+          widthFactor: 0.98,
+          child: Column(
+            children: [
+              AnnouncementCard(announcement: announcement),
+              AnnouncementCard(announcement: announcement2)
+            ],
+          ),
+        ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.announcement),
-              label: 'Anuncios',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.groups),
-              label: 'Grupos',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_month_outlined),
-              label: 'Calendario',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.menu),
-              label: 'Mas',
-            )
-          ]),
     );
   }
 }

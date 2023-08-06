@@ -12,7 +12,10 @@ class AnnouncementCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        elevation: 2,
+       shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25.0), // Adjust the radius as needed
+            ),
+        elevation: 5,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: Row(
@@ -21,7 +24,7 @@ class AnnouncementCard extends StatelessWidget {
               Column(
                 children: [
                   CircleAvatar(
-                    radius: 22,
+                    radius: 20,
                     foregroundImage: NetworkImage(announcement.user!.photoUrl!),
                   )
                 ],

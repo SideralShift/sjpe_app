@@ -15,9 +15,9 @@ class _AppState extends State<App> {
       "body": AnnouncementsScreen(),
       "floatingButton": NewAnnouncement()
     },
-    {"toolbar": ToolBar(), "body": Text('Grupos page')},
-    {"toolbar": ToolBar(), "body": Text('Calendario page')},
-    {"toolbar": ToolBar(), "body": Text('Mas page')}
+    {"toolbar": ToolBar(), "body": const Text('Grupos page')},
+    {"toolbar": ToolBar(), "body": const Text('Calendario page')},
+    {"toolbar": ToolBar(), "body": const Text('Mas page')}
   ];
 
   int _actualIndex = 0;

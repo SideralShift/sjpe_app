@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:app/models/announcement.dart';
 
 class AnnouncementsScreen extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     Person person = Person(name: 'Salvador', lastName: 'Mata');
@@ -28,7 +29,7 @@ class AnnouncementsScreen extends StatelessWidget {
             'PdD jovenes el fin de semana estaremos vendiendo barbacoa, estaremos levantando pedidos el dia de mañana',
         user: user2);
     announcement2.createdAt = DateTime(2023, 3, 10, 19, 30);
-    
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Center(

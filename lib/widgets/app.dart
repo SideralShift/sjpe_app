@@ -1,4 +1,5 @@
 import 'package:app/widgets/Announcements/announcements_screen.dart';
+import 'package:app/widgets/Announcements/new_announcement.dart';
 import 'package:app/widgets/tool_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +10,11 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   static final List<Map<String, Widget>> _pages = [
-    {"toolbar": ToolBar(), "body": AnnouncementsScreen()},
+    {
+      "toolbar": ToolBar(),
+      "body": AnnouncementsScreen(),
+      "floatingButton": NewAnnouncement()
+    },
     {"toolbar": ToolBar(), "body": Text('Grupos page')},
     {"toolbar": ToolBar(), "body": Text('Calendario page')},
     {"toolbar": ToolBar(), "body": Text('Mas page')}
@@ -28,8 +33,9 @@ class _AppState extends State<App> {
     return Scaffold(
       appBar: _pages[_actualIndex]['toolbar'] as PreferredSizeWidget,
       body: _pages[_actualIndex]['body'],
+      floatingActionButton: _pages[_actualIndex]['floatingButton'],
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _actualIndex,
+          currentIndex: _actualIndex,
           onTap: _onNavBarTap,
           type: BottomNavigationBarType.fixed,
           items: const <BottomNavigationBarItem>[
@@ -47,7 +53,7 @@ class _AppState extends State<App> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.menu),
-              label: 'Mas',
+              label: 'Más',
             )
           ]),
     );

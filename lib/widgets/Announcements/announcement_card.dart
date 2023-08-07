@@ -1,20 +1,22 @@
 import 'package:app/models/announcement.dart';
 import 'package:app/utils/date_utils.dart';
+import 'package:app/widgets/reusable/formatted_name_role.dart';
+import 'package:app/widgets/reusable/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AnnouncementCard extends StatelessWidget {
   final Announcement announcement;
-  final double _headerFontSize = 14;
 
   const AnnouncementCard({required this.announcement});
 
   @override
   Widget build(BuildContext context) {
     return Card(
-       shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25.0), // Adjust the radius as needed
-            ),
+        shape: RoundedRectangleBorder(
+          borderRadius:
+              BorderRadius.circular(25.0), // Adjust the radius as needed
+        ),
         elevation: 5,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
@@ -23,10 +25,7 @@ class AnnouncementCard extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  CircleAvatar(
-                    radius: 20,
-                    foregroundImage: NetworkImage(announcement.user!.photoUrl!),
-                  )
+                  UserAvatar(user: announcement.user!)
                 ],
               ),
               _buildDetail()
@@ -41,20 +40,7 @@ class AnnouncementCard extends StatelessWidget {
       padding: const EdgeInsets.only(left: 10),
       child: Column(
         children: [
-          Row(
-            children: [
-              Text(
-                '${announcement.user?.person?.name} ${announcement.user?.person?.lastName}',
-                style: GoogleFonts.roboto(
-                    fontSize: _headerFontSize, fontWeight: FontWeight.w600),
-              ),
-              Text(
-                ' - ${announcement.user?.mainRole}',
-                style: GoogleFonts.roboto(
-                    fontSize: _headerFontSize, color: Colors.black54),
-              )
-            ],
-          ),
+          FormattedNameRole(user: announcement.user!),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 7),
               child: Row(
@@ -74,7 +60,7 @@ class AnnouncementCard extends StatelessWidget {
               children: [
                 Text(
                   DateUtil.formatDate(announcement.createdAt!, 'es'),
-                  style: const TextStyle(fontSize: 8),
+                  style: const TextStyle(fontSize: 9),
                 )
               ],
             ),

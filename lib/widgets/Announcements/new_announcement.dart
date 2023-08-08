@@ -34,7 +34,7 @@ class _NewAnnouncementBody extends StatelessWidget {
   Widget build(BuildContext context) {
     FocusScope.of(context).requestFocus(_focusNode);
 
-    User user = User(
+    UserModel user = UserModel(
         person: Person(name: 'Roel', lastName: 'Mendoza'),
         roles: ['Presidente'],
         mainRole: 'Presidente');
@@ -112,21 +112,22 @@ class _NewAnnouncementBody extends StatelessWidget {
                     hintText: 'Que esta pasando?',
                     hintStyle: TextStyle(fontSize: 15))),
           ),
-          Expanded(child: Column(
+          Expanded(
+              child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Row(
-            children: [
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.image),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.attach_file),
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.image),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.attach_file),
+                  )
+                ],
               )
-            ],
-          )
             ],
           ))
         ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app/services/auth_service.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -30,10 +31,11 @@ class LoginScreen extends StatelessWidget {
             SizedBox(
               width: 200, // Ajusta el ancho del botón a 200 puntos
               child: ElevatedButton(
-                onPressed: () {
-                  // Aquí irá el código para validar el inicio de sesión.
+                onPressed: () async {
+                  // Aquí irá el código para validar el inicio de sesión
                 },
                 style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black54,
                   textStyle: const TextStyle(fontSize: 20),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),

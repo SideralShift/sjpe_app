@@ -1,15 +1,10 @@
 import 'package:app/models/user.dart';
 
 class Announcement {
-  User? user;
+  UserModel? user;
   String body;
   String? title;
   DateTime? createdAt;
 
-  Announcement({
-    this.user,
-    required this.body,
-    this.title,
-    this.createdAt
-  });
+  Announcement({this.user, required this.body, this.title, this.createdAt});
 }

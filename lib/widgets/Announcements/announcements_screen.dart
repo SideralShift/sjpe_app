@@ -5,12 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:app/models/announcement.dart';
 
 class AnnouncementsScreen extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     Person person = Person(name: 'Salvador', lastName: 'Mata');
-    User user =
-        User(person: person, roles: ['Presidente'], mainRole: 'Presidente');
+    UserModel user = UserModel(
+        person: person, roles: ['Presidente'], mainRole: 'Presidente');
     user.photoUrl =
         'https://firebasestorage.googleapis.com/v0/b/sjpe-48ba5.appspot.com/o/profile_photos%2FRoelDoe.png?alt=media&token=74d9b90d-6d84-403a-be11-041f2a21f4dc';
     Announcement announcement = Announcement(
@@ -20,8 +19,8 @@ class AnnouncementsScreen extends StatelessWidget {
     announcement.createdAt = DateTime(2023, 3, 10, 19, 30);
 
     Person person2 = Person(name: 'Itchell', lastName: 'Fierro');
-    User user2 =
-        User(person: person2, roles: ['Secretaria'], mainRole: 'Secretario');
+    UserModel user2 = UserModel(
+        person: person2, roles: ['Secretaria'], mainRole: 'Secretario');
     user2.photoUrl =
         'https://firebasestorage.googleapis.com/v0/b/sjpe-48ba5.appspot.com/o/profile_photos%2FRoelDoe.png?alt=media&token=74d9b90d-6d84-403a-be11-041f2a21f4dc';
     Announcement announcement2 = Announcement(

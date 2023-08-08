@@ -2,7 +2,7 @@ import 'package:app/models/user.dart';
 import 'package:flutter/material.dart';
 
 class UserAvatar extends StatelessWidget {
-  final User user;
+  final UserModel user;
   final double radius;
 
   UserAvatar({required this.user, this.radius = 20});

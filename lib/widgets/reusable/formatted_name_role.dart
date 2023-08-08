@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FormattedNameRole extends StatelessWidget {
-  final User user;
+  final UserModel user;
   final double fontSize;
 
   FormattedNameRole({required this.user, this.fontSize = 14});

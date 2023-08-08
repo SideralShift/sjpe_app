@@ -1,5 +1,6 @@
 import 'package:app/models/person.dart';
 import 'package:app/models/user.dart';
+import 'package:app/services/announcement_service.dart';
 import 'package:app/utils/app_colors.dart';
 import 'package:app/widgets/reusable/formatted_name_role.dart';
 import 'package:app/widgets/reusable/safe_dialog.dart';
@@ -81,7 +82,9 @@ class _NewAnnouncementBody extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    AnnouncementService.getAllAnnouncements();
+                  },
                   child: const Text(
                     'Publicar',
                     style: TextStyle(color: Colors.white, fontSize: 12),

@@ -1,4 +1,5 @@
 import 'package:app/models/user.dart';
+import 'package:app/utils/general_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -18,7 +19,7 @@ class FormattedNameRole extends StatelessWidget {
               fontSize: fontSize, fontWeight: FontWeight.w600),
         ),
         Text(
-          ' - ${user.mainRole}',
+          ' - ${GeneralUtils.capitalizeFirstLetter(user.mainRole?.description)}',
           style: GoogleFonts.roboto(fontSize: fontSize, color: Colors.black54),
         )
       ],

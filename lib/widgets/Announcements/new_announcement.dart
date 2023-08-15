@@ -2,15 +2,18 @@ import 'package:app/models/person.dart';
 import 'package:app/models/user.dart';
 import 'package:app/services/announcement_service.dart';
 import 'package:app/utils/app_colors.dart';
+import 'package:app/widgets/Announcements/announcements_context.dart';
 import 'package:app/widgets/reusable/formatted_name_role.dart';
 import 'package:app/widgets/reusable/safe_dialog.dart';
 import 'package:app/widgets/reusable/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class NewAnnouncement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final AnnouncementsContext announcementsContext = Provider.of<AnnouncementsContext>(context, listen: false);
     return FloatingActionButton(
       onPressed: () => showGeneralDialog<String>(
           context: context,
@@ -20,7 +23,7 @@ class NewAnnouncement extends StatelessWidget {
           barrierColor: AppColors.mainBackgroundColor!,
           pageBuilder: (BuildContext buildContext, Animation animation,
               Animation secondaryAnimation) {
-            return SafeDialog(child: _NewAnnouncementBody());
+            return SafeDialog(child: _NewAnnouncementBody(announcementsContext: announcementsContext,));
           }),
       tooltip: 'Nuevo anuncio',
       child: const Icon(Icons.add),
@@ -30,17 +33,20 @@ class NewAnnouncement extends StatelessWidget {
 
 class _NewAnnouncementBody extends StatelessWidget {
   final FocusNode _focusNode = FocusNode();
+  final AnnouncementsContext announcementsContext;
+
+  _NewAnnouncementBody({required this.announcementsContext});
 
   @override
   Widget build(BuildContext context) {
     FocusScope.of(context).requestFocus(_focusNode);
-
+    
     UserModel user = UserModel(
         person: Person(name: 'Roel', lastName: 'Mendoza'),
         roles: ['Presidente'],
-        mainRole: 'Presidente');
-    user.photoUrl =
-        'https://firebasestorage.googleapis.com/v0/b/sjpe-48ba5.appspot.com/o/profile_photos%2FRoelDoe.png?alt=media&token=74d9b90d-6d84-403a-be11-041f2a21f4dc';
+        mainRole: null);
+    user.profilePictureUrl =
+        'https://firebasestorage.googleapis.com/v0/b/sjpe-48ba5.appspot.com/o/profile_photos%2FEduardoDoe.png?alt=media&token=920b741f-1427-4dfc-9d10-f996ead3a2bc';
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
@@ -83,7 +89,7 @@ class _NewAnnouncementBody extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    AnnouncementService.getAllAnnouncements();
+                    announcementsContext.addAnnouncement();
                   },
                   child: const Text(
                     'Publicar',
@@ -97,6 +103,7 @@ class _NewAnnouncementBody extends StatelessWidget {
                 padding: EdgeInsets.only(top: 14),
                 child: UserAvatar(
                   user: user,
+                  imageUrl: user.profilePictureUrl!,
                 ),
               ),
               Padding(

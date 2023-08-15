@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>538863602730-l5u205bnn7c83hi3t8dc04s3h9l9i1qm.apps.googleusercontent.com</string>
+	<string>718962691295-kg78sd2pai883qne0s0en197srlr3s4u.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.538863602730-l5u205bnn7c83hi3t8dc04s3h9l9i1qm</string>
+	<string>com.googleusercontent.apps.718962691295-kg78sd2pai883qne0s0en197srlr3s4u</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCicKx4EXf-q4UvN-Ookt_hvPzLM5M1uTQ</string>
+	<string>AIzaSyD6WACVE3FvWcZP_qDtdPo4rBjI0ngIwac</string>
 	<key>GCM_SENDER_ID</key>
-	<string>538863602730</string>
+	<string>718962691295</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.app</string>
+	<string>com.sjpe.app</string>
 	<key>PROJECT_ID</key>
-	<string>sjpe-app-1</string>
+	<string>sjpe-48ba5</string>
 	<key>STORAGE_BUCKET</key>
-	<string>sjpe-app-1.appspot.com</string>
+	<string>sjpe-48ba5.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:538863602730:ios:ca8cce83f556ac070e0753</string>
+	<string>1:718962691295:ios:81ce8920daad838c9a2d6a</string>
 </dict>
 </plist>

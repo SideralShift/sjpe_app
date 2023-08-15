@@ -3,7 +3,6 @@ import 'package:app/utils/date_utils.dart';
 import 'package:app/widgets/reusable/formatted_name_role.dart';
 import 'package:app/widgets/reusable/user_avatar.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AnnouncementCard extends StatelessWidget {
   final Announcement announcement;
@@ -25,7 +24,7 @@ class AnnouncementCard extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  UserAvatar(user: announcement.user!)
+                  UserAvatarFromStorage(user: announcement.user!, path: (announcement.user?.profilePictureUrl)!,)
                 ],
               ),
               _buildDetail()

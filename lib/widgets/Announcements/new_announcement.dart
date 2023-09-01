@@ -3,17 +3,20 @@ import 'package:app/models/user.dart';
 import 'package:app/services/announcement_service.dart';
 import 'package:app/utils/app_colors.dart';
 import 'package:app/widgets/Announcements/announcements_context.dart';
+import 'package:app/widgets/app_context.dart';
 import 'package:app/widgets/reusable/formatted_name_role.dart';
 import 'package:app/widgets/reusable/safe_dialog.dart';
 import 'package:app/widgets/reusable/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class NewAnnouncement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AnnouncementsContext announcementsContext = Provider.of<AnnouncementsContext>(context, listen: false);
+    final AppContext appContext = Provider.of<AppContext>(context, listen: false);
     return FloatingActionButton(
       onPressed: () => showGeneralDialog<String>(
           context: context,
@@ -23,7 +26,7 @@ class NewAnnouncement extends StatelessWidget {
           barrierColor: AppColors.mainBackgroundColor!,
           pageBuilder: (BuildContext buildContext, Animation animation,
               Animation secondaryAnimation) {
-            return SafeDialog(child: _NewAnnouncementBody(announcementsContext: announcementsContext,));
+            return SafeDialog(child: _NewAnnouncementBody(announcementsContext: announcementsContext, appContext: appContext,));
           }),
       tooltip: 'Nuevo anuncio',
       child: const Icon(Icons.add),
@@ -34,8 +37,9 @@ class NewAnnouncement extends StatelessWidget {
 class _NewAnnouncementBody extends StatelessWidget {
   final FocusNode _focusNode = FocusNode();
   final AnnouncementsContext announcementsContext;
+  final AppContext appContext;
 
-  _NewAnnouncementBody({required this.announcementsContext});
+  _NewAnnouncementBody({required this.announcementsContext, required this.appContext});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +50,7 @@ class _NewAnnouncementBody extends StatelessWidget {
         roles: ['Presidente'],
         mainRole: null);
     user.profilePictureUrl =
-        'https://firebasestorage.googleapis.com/v0/b/sjpe-48ba5.appspot.com/o/profile_photos%2FEduardoDoe.png?alt=media&token=920b741f-1427-4dfc-9d10-f996ead3a2bc';
+        'public/profile_photos/RoelDoe_sJSqd8AwOpdU5EqiB4EFQG0Xse03.png';
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
@@ -102,14 +106,13 @@ class _NewAnnouncementBody extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(top: 14),
                 child: UserAvatar(
-                  user: user,
-                  imageUrl: user.profilePictureUrl!,
+                  foregroundImage: appContext.profilePictureImage!,
                 ),
               ),
               Padding(
                   padding: EdgeInsets.only(left: 10),
                   child: FormattedNameRole(
-                    user: user,
+                    user: appContext.loggedUser,
                   )),
             ],
           ),
@@ -129,7 +132,10 @@ class _NewAnnouncementBody extends StatelessWidget {
               Row(
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      ImagePicker picker = ImagePicker();
+                      await picker.pickImage(source: ImageSource.gallery);
+                    },
                     icon: Icon(Icons.image),
                   ),
                   IconButton(

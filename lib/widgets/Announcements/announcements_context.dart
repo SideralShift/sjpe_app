@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class AnnouncementsContext extends ChangeNotifier {
   List<Announcement> announcements = [];
 
-  updateAnnouncementsInfo() async {
+  getAnnouncementsInfo() async {
     announcements = await AnnouncementService.getAllAnnouncements();
     notifyListeners();
   }

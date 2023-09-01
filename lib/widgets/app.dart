@@ -1,18 +1,37 @@
 import 'package:app/widgets/Announcements/announcements_context.dart';
 import 'package:app/widgets/Announcements/announcements_screen.dart';
 import 'package:app/widgets/Announcements/new_announcement.dart';
+import 'package:app/widgets/app_context.dart';
 import 'package:app/widgets/tool_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class App extends StatefulWidget {
+
+class App extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(providers: [
+        ChangeNotifierProvider(create: (context) => AnnouncementsContext()),
+        ChangeNotifierProvider(create: (context) => AppContext())
+      ], child: AppController(),);
+  }
+  
+}
+
+class AppController extends StatefulWidget {
   @override
   _AppState createState() => _AppState();
 }
 
-class _AppState extends State<App> {
+class _AppState extends State<AppController> {
   int _actualIndex = 0;
   final _pageController = PageController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    Provider.of<AppContext>(context, listen: false).getUserInfo();
+  }
 
   final List<Map<String, Widget>> _pages = [
     {
@@ -43,11 +62,7 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => AnnouncementsContext())
-      ],
-      child: Scaffold(
+    return Scaffold(
         appBar: _pages[_actualIndex]['toolbar'] as PreferredSizeWidget,
         body: PageView(
           controller: _pageController,
@@ -76,7 +91,6 @@ class _AppState extends State<App> {
                 label: 'Más',
               )
             ]),
-      ),
-    );
+      );
   }
 }

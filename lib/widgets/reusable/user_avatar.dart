@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 class UserAvatarFromStorage extends StatefulWidget {
   final String path;
   final UserModel user;
+  final double radius;
 
-  UserAvatarFromStorage({required this.path, required this.user});
+  UserAvatarFromStorage({required this.path, required this.user, this.radius = 20});
 
   @override
   State<StatefulWidget> createState() => UserAvatarFromStorageState();
@@ -31,22 +32,21 @@ class UserAvatarFromStorageState extends State<UserAvatarFromStorage> {
 
   @override
   Widget build(BuildContext context) {
-    return UserAvatar(user: widget.user, imageUrl: downloadUrl!,);
+    return downloadUrl != null ? UserAvatar(radius: widget.radius, foregroundImage: NetworkImage(downloadUrl!),) : UserAvatar(radius: widget.radius,);
   }
 }
 
 class UserAvatar extends StatelessWidget {
-  final UserModel user;
   final double radius;
-  final String imageUrl;
+  final ImageProvider? foregroundImage;
 
-  UserAvatar({required this.user, this.radius = 20, required this.imageUrl});
+  UserAvatar({this.radius = 20, this.foregroundImage});
 
   @override
   Widget build(BuildContext context) {
-    return CircleAvatar(
+    return Center(child: CircleAvatar(
       radius: radius,
-      foregroundImage: NetworkImage(imageUrl),
-    );
+      foregroundImage: foregroundImage,
+    ),);
   }
 }

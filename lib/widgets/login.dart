@@ -6,7 +6,7 @@ import 'package:app/widgets/app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:app/widgets/reusable/popup.dart';
 import 'package:app/utils/text_constants.dart';
-import 'package:app/utils/email_verificator.dart';
+import 'package:app/utils/validations_utils.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -30,7 +30,7 @@ class LoginScreenState extends State<LoginScreen> {
         // Cuando pierde el foco
         setState(() {
           isEmailVerified =
-              EmailValidator.isValidEmail(_emailController.text.trim());
+              ValidationsUtils.isValidEmail(_emailController.text.trim());
         });
       }
     });

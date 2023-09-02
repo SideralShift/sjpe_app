@@ -1,6 +1,6 @@
 import 'package:app/widgets/Announcements/announcements_context.dart';
 import 'package:app/widgets/Announcements/announcements_screen.dart';
-import 'package:app/widgets/Announcements/new_announcement.dart';
+import 'package:app/widgets/Announcements/NewAnnouncement/new_announcement.dart';
 import 'package:app/widgets/app_context.dart';
 import 'package:app/widgets/tool_bar.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +42,7 @@ class _AppState extends State<AppController> {
           announcementsState: announcementsState,
         ),
       ),
-      "floatingButton": NewAnnouncement()
+      "floatingButton": NewAnnouncementDialog()
     },
     {"toolbar": ToolBar(), "body": const Text('Grupos page')},
     {"toolbar": ToolBar(), "body": const Text('Calendario page')},

@@ -128,7 +128,12 @@ class LoginScreenState extends State<LoginScreen> {
                                       TextConstants.loginInvalidPasswordTitle,
                                   details:
                                       TextConstants.loginInvalidPasswordDetail);
-                            } else {}
+                            } else {
+                              CustomAlert.showCustomAlert(
+                                  context: context,
+                                  title: TextConstants.serverDownTitle,
+                                  details: TextConstants.serverDownDetail);
+                            }
                           }
                         } else {
                           // Mostrar mensaje de error si los campos están vacíos

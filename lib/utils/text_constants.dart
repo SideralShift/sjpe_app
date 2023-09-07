@@ -6,4 +6,8 @@ class TextConstants {
   static const loginInvalidPasswordTitle = 'Contraseña invalida';
   static const loginInvalidPasswordDetail =
       'La contraseña que ingresaste no coincide con nuestros registros';
+
+  static const serverDownTitle = 'Problemas Tecnicos';
+  static const serverDownDetail =
+      'OOPS, parace que tenemos problemas con nuestros servidores. Intentalo mas tarde.';
 }

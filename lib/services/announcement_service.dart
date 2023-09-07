@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:app/models/announcement.dart';
 import 'package:app/utils/env_constants.dart';
@@ -15,5 +16,28 @@ class AnnouncementService {
           .toList();
     }
     return [];
+  }
+
+  static Future<Announcement> createAnnouncement(
+      Announcement announcement) async {
+    String url = '${dotenv.env[EnvConstants.sjpeApiServer]}/announcement';
+    final Map<String, String> headers = {
+      'Content-Type': 'application/json',
+    };
+
+    http.Response response = await http.post(Uri.parse(url),
+        headers: headers, body: json.encode(announcement.toJson()));
+    if (response.statusCode != HttpStatus.created) {
+      throw Error();
+    }
+    return Announcement.fromJson(json.decode(response.body));
+  }
+
+  static Future<void> deleteAnnouncement(int id) async {
+    String url = '${dotenv.env[EnvConstants.sjpeApiServer]}/announcement/$id';
+    http.Response response = await http.delete(Uri.parse(url));
+    if (response.statusCode != HttpStatus.noContent) {
+      throw Error();
+    }
   }
 }

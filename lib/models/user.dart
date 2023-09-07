@@ -3,7 +3,7 @@ import 'package:app/models/role.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'user.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class UserModel {
   //TODO: complete user structure
   final String? id;

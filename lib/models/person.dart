@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 part 'person.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Person {
   //TODO: Complete person structure
   String? name;

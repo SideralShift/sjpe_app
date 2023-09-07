@@ -4,8 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 class NewAnnouncementToolBar extends StatelessWidget{
   final AnnouncementsContext announcementsContext;
+  final void Function() onPublishTap;
 
-  NewAnnouncementToolBar({required this.announcementsContext});
+  NewAnnouncementToolBar({required this.announcementsContext, required this.onPublishTap});
   
   @override
   Widget build(BuildContext context) {
@@ -45,9 +46,7 @@ class NewAnnouncementToolBar extends StatelessWidget{
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                  onPressed: () {
-                    announcementsContext.addAnnouncement();
-                  },
+                  onPressed: onPublishTap,
                   child: const Text(
                     'Publicar',
                     style: TextStyle(color: Colors.white, fontSize: 12),

@@ -1,10 +1,17 @@
 import 'dart:typed_data';
+import 'package:app/models/announcement.dart';
+import 'package:app/models/announcement_attachment.dart';
+import 'package:app/models/attachment.dart';
+import 'package:app/services/announcement_service.dart';
+import 'package:app/services/attachment_service.dart';
+import 'package:app/services/storage_service.dart';
 import 'package:app/utils/app_colors.dart';
-import 'package:app/utils/types.dart';
+import 'package:app/utils/storage_constants.dart';
 import 'package:app/widgets/Announcements/NewAnnouncement/new_announcement_screen.dart';
 import 'package:app/widgets/Announcements/announcements_context.dart';
 import 'package:app/widgets/app_context.dart';
 import 'package:app/widgets/reusable/safe_dialog.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -56,53 +63,85 @@ class NewAnnouncement extends StatefulWidget {
 }
 
 class NewAnnouncementState extends State<NewAnnouncement> {
-  /**_uploadFiles(List<XFile?> images) {
-    images.forEach((image) async {
-      Uint8List? bytes = await image.readAsBytes();
-      UploadTask uploadTask = StorageService.saveToFolder(
-          bytes, image.name, StorageConstants.pathAnnouncementsAttachments);
-      uploadTask.whenComplete(() => print('UPLOADED'));
-    });
-  } */
-  List<AttachedImage> attachedImages = [];
+  Announcement newAnnouncement = Announcement(body: '', attachments: []);
+  TextEditingController announcementBodyController = TextEditingController();
 
   _pickImage() async {
     ImagePicker picker = ImagePicker();
-    List<XFile?> images = await picker.pickMultiImage();
-    if (images.isNotEmpty) {
-      List<AttachedImage> processedImages = await _processImages(images);
+    List<XFile?> selectedImages = await picker.pickMultiImage();
+    if (selectedImages.isNotEmpty) {
+      List<AnnouncementAttachment> announcementAttachments = selectedImages
+          .map((image) => AnnouncementAttachment(
+              attachment: Attachment.fromXFile(image!,
+                  '${StorageConstants.pathAnnouncementsAttachments}/${image.name}')))
+          .toList();
 
+      for (AnnouncementAttachment announcentAttachment
+          in announcementAttachments) {
+        if (announcentAttachment.attachment.data == null) {
+          await announcentAttachment.attachment.loadData();
+        }
+      }
       setState(() {
-        attachedImages = processedImages;
+        newAnnouncement.attachments.addAll(announcementAttachments);
       });
     }
   }
 
-  Future<List<AttachedImage>> _processImages(
-    List<XFile?> xFiles,
-  ) async {
-    final List<AttachedImage> imageList = [];
+  _publishAnnouncement() async {
+    Navigator.of(context).pop();
+    newAnnouncement.body = announcementBodyController.text;
+    newAnnouncement.user = widget.appContext.loggedUser;
+    newAnnouncement.createdAt = DateTime.now();
 
-    for (final xFile in xFiles) {
-      if (xFile != null) {
-        Uint8List bytes = await xFile.readAsBytes();
-        imageList.add({
-          "file": xFile,
-          "data": bytes,
-        });
-      }
+    widget.announcementsContext
+        .startPublishing(newAnnouncement, _uploadAnnouncementInfo());
+  }
+
+  Future<void> _uploadAnnouncementInfo() async {
+    List<AnnouncementAttachment> list = newAnnouncement.attachments;
+    newAnnouncement.attachments = [];
+    Announcement createdAnnouncement =
+        await AnnouncementService.createAnnouncement(newAnnouncement);
+    newAnnouncement.attachments = list;
+    final uploadToFirebaseTasks =
+        newAnnouncement.attachments.map((announcementAttachment) {
+      return StorageService.saveToFolder(
+          announcementAttachment.attachment.data!,
+          (announcementAttachment.attachment.url)!);
+    }).toList();
+
+    final uploadToDbTasks = newAnnouncement.attachments.map((attachment) {
+      attachment.announcementId = createdAnnouncement.id;
+      return AttachmentService.createAnnouncementAttachment(attachment);
+    }).toList();
+
+    await Future.wait(uploadToFirebaseTasks!).catchError(() {
+      _flushAnnouncement(createdAnnouncement);
+    });
+
+    await Future.wait(uploadToDbTasks!).catchError(() {
+      _flushAnnouncement(createdAnnouncement);
+    });
+  }
+
+  _flushAnnouncement(Announcement announcement) {
+    if (announcement.id != null) {
+      AnnouncementService.deleteAnnouncement(announcement.id!);
     }
-
-    return imageList;
   }
 
   @override
   Widget build(BuildContext context) {
+    List<Attachment> attachments =
+        newAnnouncement.attachments.map((e) => e.attachment).toList();
     return NewAnnouncementScreen(
       announcementsContext: widget.announcementsContext,
       appContext: widget.appContext,
+      attachedImages: attachments,
       onAttachImagePressed: _pickImage,
-      attachedImages: attachedImages
+      onPublishTap: _publishAnnouncement,
+      announcementBodyController: announcementBodyController,
     );
   }
 }

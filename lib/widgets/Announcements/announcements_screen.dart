@@ -27,6 +27,9 @@ class AnnouncementScreenState extends State<AnnouncementScreenController>
   Widget build(BuildContext context) {
     super.build(context);
     return AnnouncementsScreen(
+      retrievingAnnouncements:
+          widget.announcementsState.retrievingAnnouncements,
+      isPublishing: widget.announcementsState.isPublishing,
       announcements: widget.announcementsState.announcements,
     );
   }
@@ -34,24 +37,38 @@ class AnnouncementScreenState extends State<AnnouncementScreenController>
 
 class AnnouncementsScreen extends StatelessWidget {
   final List<Announcement> announcements;
+  final bool retrievingAnnouncements;
+  final bool isPublishing;
 
-  AnnouncementsScreen({required this.announcements});
+  AnnouncementsScreen(
+      {required this.announcements,
+      required this.retrievingAnnouncements,
+      required this.isPublishing});
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> shownWidgets = retrievingAnnouncements
+        ? announcementsPlaceholders
+        : <Widget>[
+            ...announcements
+                .map((announcement) =>
+                    AnnouncementCard(announcement: announcement))
+                .toList()
+          ];
+
+    if (isPublishing) {
+      shownWidgets.insert(0, AnnouncementShimmer());
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Center(
-        child: FractionallySizedBox(
-          widthFactor: 0.98,
-          child: Column(
-            children: announcements.isEmpty
-                ? announcementsPlaceholders
-                : announcements
-                    .map((announcement) =>
-                        AnnouncementCard(announcement: announcement))
-                    .toList(),
-            //children: ,
+      child: SingleChildScrollView(
+        child: Center(
+          child: FractionallySizedBox(
+            widthFactor: 0.98,
+            child: Column(children: shownWidgets
+                //children: ,
+                ),
           ),
         ),
       ),

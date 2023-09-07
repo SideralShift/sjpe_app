@@ -1,4 +1,4 @@
-import 'package:app/utils/types.dart';
+import 'package:app/models/attachment.dart';
 import 'package:app/widgets/Announcements/NewAnnouncement/attached_images.dart';
 import 'package:app/widgets/Announcements/NewAnnouncement/new_announcement_actions.dart';
 import 'package:app/widgets/Announcements/NewAnnouncement/new_announcement_toolbar.dart';
@@ -7,20 +7,25 @@ import 'package:app/widgets/app_context.dart';
 import 'package:app/widgets/reusable/formatted_name_role.dart';
 import 'package:app/widgets/reusable/user_avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class NewAnnouncementScreen extends StatelessWidget {
   final FocusNode _focusNode = FocusNode();
+  final TextEditingController announcementBodyController;
 
   final AnnouncementsContext announcementsContext;
   final AppContext appContext;
   final void Function() onAttachImagePressed;
-  final List<AttachedImage> attachedImages;
+  final List<Attachment> attachedImages;
+  final void Function() onPublishTap;
 
   NewAnnouncementScreen(
       {required this.announcementsContext,
       required this.appContext,
       required this.onAttachImagePressed,
-      required this.attachedImages});
+      required this.attachedImages,
+      required this.onPublishTap,
+      required this.announcementBodyController});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +35,7 @@ class NewAnnouncementScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
       child: Column(
         children: [
-          NewAnnouncementToolBar(announcementsContext: announcementsContext),
+          NewAnnouncementToolBar(announcementsContext: announcementsContext, onPublishTap: onPublishTap,),
           Expanded(
               child: ListView(
             children: [
@@ -52,6 +57,7 @@ class NewAnnouncementScreen extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(top: 18, left: 4),
                 child: TextField(
+                    controller: announcementBodyController,
                     focusNode: _focusNode,
                     maxLines: null,
                     decoration: const InputDecoration.collapsed(
@@ -60,7 +66,7 @@ class NewAnnouncementScreen extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.only(top: 10),
-                child: AttachedImages(attachedImages: attachedImages),
+                child: AttachedImages(loadedImages: attachedImages),
               )
             ],
           )),

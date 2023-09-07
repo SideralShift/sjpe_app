@@ -1,6 +1,7 @@
 import 'package:app/models/announcement.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/widgets/reusable/formatted_name_role.dart';
+import 'package:app/widgets/reusable/image_attachment.dart';
 import 'package:app/widgets/reusable/user_avatar.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +25,10 @@ class AnnouncementCard extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  UserAvatarFromStorage(user: announcement.user!, path: (announcement.user?.profilePictureUrl)!,)
+                  UserAvatarFromStorage(
+                    user: announcement.user!,
+                    path: (announcement.user?.profilePictureUrl)!,
+                  )
                 ],
               ),
               _buildDetail()
@@ -44,14 +48,14 @@ class AnnouncementCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 7),
               child: Row(
                 children: [
-                  Expanded(
-                      child: Text(
+                  Text(
                     announcement.body,
                     style: const TextStyle(fontSize: 12),
                     textAlign: TextAlign.justify,
-                  ))
+                  ),
                 ],
               )),
+          ...announcement.attachments.map((e) => ImageAttachment(path: e.attachment.url!)).toList(),
           Padding(
             padding: const EdgeInsets.only(top: 5),
             child: Row(

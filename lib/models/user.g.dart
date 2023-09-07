@@ -26,8 +26,8 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'id': instance.id,
       'userName': instance.userName,
       'password': instance.password,
-      'person': instance.person,
-      'mainRole': instance.mainRole,
+      'person': instance.person?.toJson(),
+      'mainRole': instance.mainRole?.toJson(),
       'roles': instance.roles,
       'profilePictureUrl': instance.profilePictureUrl,
     };

@@ -1,8 +1,7 @@
+import 'package:app/widgets/Birthdays/birthday_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:app/models/user.dart';
-import 'package:app/widgets/reusable/user_avatar.dart';
 import 'package:app/services/user_service.dart';
-import 'package:app/utils/months_utils.dart';
 
 class BirthdayScreen extends StatefulWidget {
   const BirthdayScreen({Key? key}) : super(key: key);
@@ -18,7 +17,7 @@ class BirthdayScreenState extends State<BirthdayScreen> {
   @override
   void initState() {
     super.initState();
-    usersFuture = UserService().fetchUsers();
+    usersFuture = UserService.getUsersBirthdays();
   }
 
   @override
@@ -34,7 +33,8 @@ class BirthdayScreenState extends State<BirthdayScreen> {
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Text('No se encontraron usuarios.');
           } else {
-            final users = snapshot.data!;
+            List<UserModel> users = snapshot.data!; //final list User
+            users = UserService.orderBirthdays(users);
             return ListView.builder(
               itemCount: users.length,
               itemBuilder: (context, index) {
@@ -44,84 +44,9 @@ class BirthdayScreenState extends State<BirthdayScreen> {
                     userBirthDate?.month == currentDate.month;
 
                 if (isBirthdayToday) {
-                  return Card(
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    margin: const EdgeInsets.all(8.0),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          UserAvatarFromStorage(
-                            user: user,
-                            path: user.profilePictureUrl ?? '',
-                          ),
-                          const SizedBox(height: 8.0),
-                          Text(
-                            '¡Feliz Cumpleaños, ${user.person?.name}!',
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Text(
-                              '${userBirthDate?.day} de ${NumberToMonths.getMonthName(userBirthDate?.month ?? 1)}.',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
+                  return BirthdayBoyCard(user: user);
                 } else {
-                  return Card(
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    margin: const EdgeInsets.all(8.0),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              UserAvatarFromStorage(
-                                user: user,
-                                path: user.profilePictureUrl ?? '',
-                              ),
-                              const SizedBox(width: 8.0),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      user.person?.name ?? '',
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child: Text(
-                                        '${userBirthDate?.day} de ${NumberToMonths.getMonthName(userBirthDate?.month ?? 1)}.',
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
+                  return BirthdayCard(user: user);
                 }
               },
             );

@@ -34,7 +34,7 @@ class AttachmentImage extends StatelessWidget {
       width: 150,
       height: 200,
       child: Padding(
-        padding: EdgeInsets.only(right: 8),
+        padding: const EdgeInsets.only(right: 8),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(25.0),
           child: Image.memory(

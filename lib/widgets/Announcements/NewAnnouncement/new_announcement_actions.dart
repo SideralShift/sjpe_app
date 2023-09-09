@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class NewAnnouncementActions extends StatelessWidget {
   void Function() onAttachImagePressed;
 
-  NewAnnouncementActions({required this.onAttachImagePressed});
+  NewAnnouncementActions({super.key, required this.onAttachImagePressed});
 
   @override
   Widget build(BuildContext context) {
@@ -11,11 +11,11 @@ class NewAnnouncementActions extends StatelessWidget {
       children: [
         IconButton(
           onPressed: onAttachImagePressed,
-          icon: Icon(Icons.image),
+          icon: const Icon(Icons.image),
         ),
         IconButton(
           onPressed: () {},
-          icon: Icon(Icons.attach_file),
+          icon: const Icon(Icons.attach_file),
         )
       ],
     );

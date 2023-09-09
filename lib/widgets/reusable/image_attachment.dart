@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class ImageAttachment extends StatefulWidget {
   final String path;
 
-  ImageAttachment({required this.path});
+  const ImageAttachment({super.key, required this.path});
 
   @override
   State<StatefulWidget> createState() => _ImageAttachmentState();
@@ -15,6 +15,7 @@ class _ImageAttachmentState extends State<ImageAttachment> {
 
   @override
   void initState() {
+    super.initState();
     FirebaseStorage.instance
         .ref()
         .child(widget.path)

@@ -7,7 +7,6 @@ import 'package:app/widgets/app_context.dart';
 import 'package:app/widgets/reusable/formatted_name_role.dart';
 import 'package:app/widgets/reusable/user_avatar.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 class NewAnnouncementScreen extends StatelessWidget {
   final FocusNode _focusNode = FocusNode();
@@ -20,7 +19,8 @@ class NewAnnouncementScreen extends StatelessWidget {
   final void Function() onPublishTap;
 
   NewAnnouncementScreen(
-      {required this.announcementsContext,
+      {super.key,
+      required this.announcementsContext,
       required this.appContext,
       required this.onAttachImagePressed,
       required this.attachedImages,
@@ -35,7 +35,10 @@ class NewAnnouncementScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
       child: Column(
         children: [
-          NewAnnouncementToolBar(announcementsContext: announcementsContext, onPublishTap: onPublishTap,),
+          NewAnnouncementToolBar(
+            announcementsContext: announcementsContext,
+            onPublishTap: onPublishTap,
+          ),
           Expanded(
               child: ListView(
             children: [

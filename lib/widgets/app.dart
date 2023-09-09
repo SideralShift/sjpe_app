@@ -34,6 +34,7 @@ class _AppState extends State<AppController> {
 
   @override
   void initState() {
+    super.initState();
     // TODO: implement initState
     Provider.of<AppContext>(context, listen: false).getUserInfo();
   }

@@ -1,6 +1,4 @@
 import 'package:app/models/attachment.dart';
-import 'package:app/utils/storage_constants.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'announcement_attachment.g.dart';
 

@@ -7,7 +7,8 @@ class UserAvatarFromStorage extends StatefulWidget {
   final UserModel user;
   final double radius;
 
-  UserAvatarFromStorage({required this.path, required this.user, this.radius = 20});
+  UserAvatarFromStorage(
+      {required this.path, required this.user, this.radius = 20});
 
   @override
   State<StatefulWidget> createState() => UserAvatarFromStorageState();
@@ -18,6 +19,7 @@ class UserAvatarFromStorageState extends State<UserAvatarFromStorage> {
 
   @override
   void initState() {
+    super.initState();
     // TODO: implement initState
     FirebaseStorage.instance
         .ref()
@@ -32,7 +34,14 @@ class UserAvatarFromStorageState extends State<UserAvatarFromStorage> {
 
   @override
   Widget build(BuildContext context) {
-    return downloadUrl != null ? UserAvatar(radius: widget.radius, foregroundImage: NetworkImage(downloadUrl!),) : UserAvatar(radius: widget.radius,);
+    return downloadUrl != null
+        ? UserAvatar(
+            radius: widget.radius,
+            foregroundImage: NetworkImage(downloadUrl!),
+          )
+        : UserAvatar(
+            radius: widget.radius,
+          );
   }
 }
 
@@ -44,9 +53,11 @@ class UserAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: CircleAvatar(
-      radius: radius,
-      foregroundImage: foregroundImage,
-    ),);
+    return Center(
+      child: CircleAvatar(
+        radius: radius,
+        foregroundImage: foregroundImage,
+      ),
+    );
   }
 }

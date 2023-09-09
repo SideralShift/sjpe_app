@@ -1,7 +1,5 @@
 import 'package:app/models/announcement_attachment.dart';
-import 'package:app/models/attachment.dart';
 import 'package:app/models/user.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'announcement.g.dart';
 
@@ -14,11 +12,16 @@ class Announcement {
   DateTime? createdAt;
   List<AnnouncementAttachment> attachments;
 
-  Announcement({this.id,this.user, required this.body, this.title, this.createdAt,required this.attachments});
+  Announcement(
+      {this.id,
+      this.user,
+      required this.body,
+      this.title,
+      this.createdAt,
+      required this.attachments});
 
-  factory Announcement.fromJson(Map<String, dynamic> json) => _$AnnouncementFromJson(json);
+  factory Announcement.fromJson(Map<String, dynamic> json) =>
+      _$AnnouncementFromJson(json);
 
   Map<String, dynamic> toJson() => _$AnnouncementToJson(this);
-
-
 }

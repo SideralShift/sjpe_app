@@ -9,7 +9,7 @@ import 'package:app/utils/text_constants.dart';
 import 'package:app/utils/validations_utils.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   LoginScreenState createState() => LoginScreenState();
@@ -96,7 +96,7 @@ class LoginScreenState extends State<LoginScreen> {
                         if (email.isNotEmpty && password.isNotEmpty) {
                           final user = UserModel(
                             roles: [],
-                            person: Person(name: '', email: email),
+                            person: Person(id: 1, name: '', email: email),
                             password: password,
                           );
                           final authResult = await AuthService.logginUser(user);

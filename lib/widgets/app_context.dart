@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppContext extends ChangeNotifier {
-  UserModel loggedUser = UserModel(person: Person(name: ''), roles: []);
+  UserModel loggedUser = UserModel(person: Person(id: 1, name: ''), roles: []);
   NetworkImage? profilePictureImage;
 
   getUserInfo() async {

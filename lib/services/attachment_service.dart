@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:app/models/announcement_attachment.dart';
 import 'package:app/models/attachment.dart';
 import 'package:app/utils/env_constants.dart';

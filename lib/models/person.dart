@@ -4,12 +4,22 @@ part 'person.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Person {
   //TODO: Complete person structure
+  int? id;
   String? name;
   String? lastName;
   String? email;
   String? phoneNumber;
+  DateTime? birthdate;
+  int? age;
 
-  Person({required this.name, this.lastName, this.email, this.phoneNumber});
+  Person(
+      {required this.id,
+      required this.name,
+      this.lastName,
+      this.email,
+      this.phoneNumber,
+      this.birthdate,
+      this.age});
 
   factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
 

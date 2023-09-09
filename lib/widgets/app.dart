@@ -1,7 +1,7 @@
 import 'package:app/widgets/Announcements/announcements_context.dart';
 import 'package:app/widgets/Announcements/announcements_screen.dart';
 import 'package:app/widgets/Announcements/NewAnnouncement/new_announcement.dart';
-import 'package:app/widgets/Birthdays/birthday_card.dart';
+import 'package:app/widgets/Birthdays/birthday_screen.dart';
 import 'package:app/widgets/app_context.dart';
 import 'package:app/widgets/tool_bar.dart';
 import 'package:flutter/material.dart';

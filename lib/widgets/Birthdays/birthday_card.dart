@@ -63,7 +63,7 @@ class BirthdayScreenState extends State<BirthdayScreen> {
                             children: [
                               Text(
                                 isBirthdayToday
-                                    ? '¡Feliz Cumpleaños!'
+                                    ? '¡Feliz Cumpleaños, ${user.person?.name}!'
                                     : user.person?.name ?? '',
                                 style: const TextStyle(
                                   fontSize: 20,

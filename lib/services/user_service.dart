@@ -32,7 +32,31 @@ class UserService {
             roles: [], // Agrega los roles si es necesario
           );
         }).toList();
-        return users;
+
+        // Filtrar usuarios que cumplen anos
+        final todayUsers = users.where((user) {
+          final userBirthDate = user.person?.birthdate;
+          return userBirthDate?.day == DateTime.now().day &&
+              userBirthDate?.month == DateTime.now().month;
+        }).toList();
+
+        // Filtrar usuarios que no cumplen anos
+        final otherUsers = users.where((user) {
+          final userBirthDate = user.person?.birthdate;
+          return userBirthDate?.day != DateTime.now().day ||
+              userBirthDate?.month != DateTime.now().month;
+        }).toList();
+
+        // Ordenar la lista para mostrar primero los que cumplen hoy
+        todayUsers.sort((a, b) =>
+            a.person?.birthdate
+                ?.compareTo(b.person?.birthdate ?? DateTime.now()) ??
+            0);
+
+        // Combinar las dos listas ordenadas
+        final sortedUsers = [...todayUsers, ...otherUsers];
+
+        return sortedUsers;
       } else {
         throw Exception(
             'Error en la solicitud a la API: ${response.statusCode}');

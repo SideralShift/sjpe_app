@@ -37,7 +37,7 @@ class NewAnnouncementDialog extends StatelessWidget {
       context: context,
       barrierDismissible: true,
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-      barrierColor: AppColors.mainBackgroundColor!,
+      barrierColor: AppStyles.mainBackgroundColor!,
       pageBuilder: (BuildContext buildContext, Animation animation,
           Animation secondaryAnimation) {
         return SafeDialog(
@@ -99,11 +99,10 @@ class NewAnnouncementState extends State<NewAnnouncement> {
   }
 
   Future<void> _uploadAnnouncementInfo() async {
-    List<AnnouncementAttachment> list = newAnnouncement.attachments;
-    newAnnouncement.attachments = [];
+
     Announcement createdAnnouncement =
         await AnnouncementService.createAnnouncement(newAnnouncement);
-    newAnnouncement.attachments = list;
+
     final uploadToFirebaseTasks =
         newAnnouncement.attachments.map((announcementAttachment) {
       return StorageService.saveToFolder(
@@ -111,18 +110,10 @@ class NewAnnouncementState extends State<NewAnnouncement> {
           (announcementAttachment.attachment.url)!);
     }).toList();
 
-    final uploadToDbTasks = newAnnouncement.attachments.map((attachment) {
-      attachment.announcementId = createdAnnouncement.id;
-      return AttachmentService.createAnnouncementAttachment(attachment);
-    }).toList();
-
     await Future.wait(uploadToFirebaseTasks!).catchError(() {
       _flushAnnouncement(createdAnnouncement);
     });
 
-    await Future.wait(uploadToDbTasks!).catchError(() {
-      _flushAnnouncement(createdAnnouncement);
-    });
   }
 
   _flushAnnouncement(Announcement announcement) {

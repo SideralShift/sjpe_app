@@ -1,4 +1,5 @@
 import 'package:app/models/user.dart';
+import 'package:app/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:app/widgets/reusable/user_avatar.dart';
 import 'package:app/utils/months_utils.dart';
@@ -13,7 +14,7 @@ class BirthdayBoyCard extends StatelessWidget {
     return Card(
       elevation: 5,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
+        borderRadius: BorderRadius.circular(AppStyles.cardsBorderRadius),
       ),
       margin: const EdgeInsets.all(8.0),
       child: Padding(
@@ -58,7 +59,7 @@ class BirthdayCard extends StatelessWidget {
     return Card(
       elevation: 5,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
+        borderRadius: BorderRadius.circular(AppStyles.cardsBorderRadius),
       ),
       margin: const EdgeInsets.all(8.0),
       child: Padding(

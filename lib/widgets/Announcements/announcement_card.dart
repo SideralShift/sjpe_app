@@ -1,4 +1,6 @@
 import 'package:app/models/announcement.dart';
+import 'package:app/services/announcement_service.dart';
+import 'package:app/utils/app_colors.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/widgets/reusable/formatted_name_role.dart';
 import 'package:app/widgets/reusable/image_attachment.dart';
@@ -14,14 +16,16 @@ class AnnouncementCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+        color: Colors.white,
         shape: RoundedRectangleBorder(
-          borderRadius:
-              BorderRadius.circular(25.0), // Adjust the radius as needed
+          borderRadius: BorderRadius.circular(
+              AppStyles.cardsBorderRadius), // Adjust the radius as needed
         ),
         elevation: 5,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          child: Row(
+          child: Stack(
+            children: [Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Column(
@@ -35,7 +39,44 @@ class AnnouncementCard extends StatelessWidget {
               _buildDetail()
             ],
           ),
+          Positioned(right: -10, top: -11, child: _buildPopUpMenu(),)],
+          )
         ));
+  }
+
+  Widget _buildPopUpMenu() {
+    return SizedBox(
+      height: 40,
+      width: 40,
+      child: PopupMenuButton(
+        padding: const EdgeInsets.all(0),
+        splashRadius: 15,
+        itemBuilder: (context) {
+          return <PopupMenuEntry<int>>[
+            PopupMenuItem<int>(
+              onTap: () {
+                AnnouncementService.deleteAnnouncement(announcement.id!);
+              },
+              value: 1,
+              child: const Row(
+                children: [
+                  Icon(
+                    Icons.delete,
+                    size: 20,
+                  ),
+                  Text('Eliminar')
+                ],
+              ),
+            ),
+          ];
+        },
+        iconSize: 20,
+        icon: const Icon(
+          Icons.more_horiz,
+          color: Colors.black38,
+        ),
+      ),
+    );
   }
 
   Widget _buildDetail() {
@@ -44,21 +85,34 @@ class AnnouncementCard extends StatelessWidget {
       padding: const EdgeInsets.only(left: 10),
       child: Column(
         children: [
-          FormattedNameRole(user: announcement.user!),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FormattedNameRole(user: announcement.user!),
+            ],
+          ),
           Padding(
-              padding: const EdgeInsets.symmetric(vertical: 7),
+              padding: const EdgeInsets.only(
+                top: 3,
+                bottom: 10,
+              ),
               child: Row(
                 children: [
-                  Flexible(child: Text(
+                  Flexible(
+                      child: Text(
                     announcement.body,
-                    style: const TextStyle(fontSize: 12),
+                    style: const TextStyle(fontSize: 13),
                     textAlign: TextAlign.justify,
                   )),
                 ],
               )),
-          ImageGallery(attachments: announcement.attachments.map((e) => e.attachment).toList(),),
+          ImageGallery(
+            attachments:
+                announcement.attachments.map((e) => e.attachment).toList(),
+          ),
           Padding(
-            padding: const EdgeInsets.only(top: 5),
+            padding: const EdgeInsets.only(top: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [

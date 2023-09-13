@@ -9,7 +9,7 @@ class ToolBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       titleSpacing: 10,
       centerTitle: false,
-      backgroundColor: AppColors.mainBackgroundColor,
+      backgroundColor: AppStyles.mainBackgroundColor,
       title: Row(
         children: [
           const Image(

@@ -10,6 +10,8 @@ class Announcement {
   String body;
   String? title;
   DateTime? createdAt;
+
+  @JsonKey(defaultValue: [])
   List<AnnouncementAttachment> attachments;
 
   Announcement(

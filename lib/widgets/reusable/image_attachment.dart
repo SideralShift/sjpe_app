@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:app/utils/app_colors.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -90,7 +91,7 @@ class _ImageAttachmentState extends State<ImageAttachment> {
     }
 
     return ClipRRect(
-      borderRadius: BorderRadius.circular(25),
+      borderRadius: BorderRadius.circular(AppStyles.cardsBorderRadius),
       child: imageWidget,
     );
   }
@@ -109,10 +110,10 @@ class _ImageAttachmentState extends State<ImageAttachment> {
         sideIndex = widget.index == 0 ? 0 : 1;
         BorderRadius border = sideIndex == 0
             ? const BorderRadius.only(
-                topLeft: Radius.circular(25), bottomLeft: Radius.circular(25))
+                topLeft: Radius.circular(AppStyles.cardsBorderRadius), bottomLeft: Radius.circular(AppStyles.cardsBorderRadius))
             : const BorderRadius.only(
-                topRight: Radius.circular(25),
-                bottomRight: Radius.circular(25));
+                topRight: Radius.circular(AppStyles.cardsBorderRadius),
+                bottomRight: Radius.circular(AppStyles.cardsBorderRadius));
         return ClipRRect(
           borderRadius: border,
           child: SizedBox(
@@ -126,12 +127,12 @@ class _ImageAttachmentState extends State<ImageAttachment> {
         sideIndex = widget.index == 0 ? 0 : 1;
         BorderRadius border = sideIndex == 0
             ? const BorderRadius.only(
-                topLeft: Radius.circular(25), bottomLeft: Radius.circular(25))
+                topLeft: Radius.circular(AppStyles.cardsBorderRadius), bottomLeft: Radius.circular(AppStyles.cardsBorderRadius))
             : widget.index == 1
                 ? const BorderRadius.only(
-                    topRight: Radius.circular(25),
+                    topRight: Radius.circular(AppStyles.cardsBorderRadius),
                   )
-                : const BorderRadius.only(bottomRight: Radius.circular(25));
+                : const BorderRadius.only(bottomRight: Radius.circular(AppStyles.cardsBorderRadius));
         if (sideIndex == 1) {
           height = height / 2 - 1;
         }

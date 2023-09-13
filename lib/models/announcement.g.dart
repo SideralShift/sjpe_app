@@ -16,10 +16,11 @@ Announcement _$AnnouncementFromJson(Map<String, dynamic> json) => Announcement(
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
-      attachments: (json['attachments'] as List<dynamic>)
-          .map(
-              (e) => AnnouncementAttachment.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      attachments: (json['attachments'] as List<dynamic>?)
+              ?.map((e) =>
+                  AnnouncementAttachment.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
     );
 
 Map<String, dynamic> _$AnnouncementToJson(Announcement instance) =>

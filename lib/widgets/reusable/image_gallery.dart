@@ -14,7 +14,7 @@ class ImageGallery extends StatelessWidget {
 
     if (bucketProportion == 2) {
       return _render2(bucketProportion);
-    } else if (bucketProportion < 2 && attachments.length > 1) {
+    } else if (attachments.length > 1) {
       return _render3(bucketProportion);
     }
 

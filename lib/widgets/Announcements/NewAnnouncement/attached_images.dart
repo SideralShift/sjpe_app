@@ -1,4 +1,5 @@
 import 'package:app/models/attachment.dart';
+import 'package:app/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class AttachedImages extends StatelessWidget {
@@ -36,7 +37,7 @@ class AttachmentImage extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(right: 8),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(25.0),
+          borderRadius: BorderRadius.circular(AppStyles.cardsBorderRadius),
           child: Image.memory(
             image.data!,
             fit: BoxFit.cover,

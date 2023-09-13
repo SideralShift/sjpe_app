@@ -1,3 +1,4 @@
+import 'package:app/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -19,7 +20,7 @@ class AnnouncementShimmer extends StatelessWidget {
     return Card(
         shape: RoundedRectangleBorder(
           borderRadius:
-              BorderRadius.circular(25.0), // Adjust the radius as needed
+              BorderRadius.circular(AppStyles.cardsBorderRadius), // Adjust the radius as needed
         ),
         elevation: 5,
         child: Padding(

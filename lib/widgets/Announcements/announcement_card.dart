@@ -1,10 +1,10 @@
 import 'package:app/models/announcement.dart';
 import 'package:app/services/announcement_service.dart';
 import 'package:app/utils/app_colors.dart';
+import 'package:app/utils/classes/storage_image.dart';
 import 'package:app/utils/date_utils.dart';
+import 'package:app/widgets/reusable/MiniGallery/mini_gallery.dart';
 import 'package:app/widgets/reusable/formatted_name_role.dart';
-import 'package:app/widgets/reusable/image_attachment.dart';
-import 'package:app/widgets/reusable/image_gallery.dart';
 import 'package:app/widgets/reusable/user_avatar.dart';
 import 'package:flutter/material.dart';
 
@@ -23,25 +23,30 @@ class AnnouncementCard extends StatelessWidget {
         ),
         elevation: 5,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          child: Stack(
-            children: [Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                children: [
-                  UserAvatarFromStorage(
-                    user: announcement.user!,
-                    path: (announcement.user?.profilePictureUrl)!,
-                  )
-                ],
-              ),
-              _buildDetail()
-            ],
-          ),
-          Positioned(right: -10, top: -11, child: _buildPopUpMenu(),)],
-          )
-        ));
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            child: Stack(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      children: [
+                        UserAvatarFromStorage(
+                          user: announcement.user!,
+                          path: (announcement.user?.profilePictureUrl)!,
+                        )
+                      ],
+                    ),
+                    _buildDetail()
+                  ],
+                ),
+                Positioned(
+                  right: -10,
+                  top: -11,
+                  child: _buildPopUpMenu(),
+                )
+              ],
+            )));
   }
 
   Widget _buildPopUpMenu() {
@@ -107,9 +112,18 @@ class AnnouncementCard extends StatelessWidget {
                   )),
                 ],
               )),
-          ImageGallery(
-            attachments:
-                announcement.attachments.map((e) => e.attachment).toList(),
+          MiniGallery(
+            images: announcement.attachments.map((e) {
+              if (e.attachment.storageObject != null) {
+                StorageImage imageFromStorage =
+                    e.attachment.storageObject as StorageImage;
+                return Image.memory(imageFromStorage.data,
+                    width: imageFromStorage.width,
+                    height: imageFromStorage.height,
+                    fit: BoxFit.cover,);
+              }
+              return null;
+            }).toList(),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 10),

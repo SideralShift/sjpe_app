@@ -39,7 +39,7 @@ class AttachmentImage extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(AppStyles.cardsBorderRadius),
           child: Image.memory(
-            image.data!,
+            (image.storageObject?.data)!,
             fit: BoxFit.cover,
           ),
         ),

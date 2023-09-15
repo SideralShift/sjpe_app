@@ -1,27 +1,27 @@
 import 'package:app/models/attachment.dart';
-import 'package:app/widgets/reusable/image_attachment.dart';
-import 'package:collection/collection.dart';
+import 'package:app/utils/classes/storage_image.dart';
+import 'package:app/widgets/reusable/MiniGallery/mini_gallery_image.dart';
 import 'package:flutter/material.dart';
 
-class ImageGallery extends StatelessWidget {
-  final List<Attachment> attachments;
+class MiniGallery extends StatelessWidget {
+  final List<Image?> images;
 
-  ImageGallery({required this.attachments});
+  MiniGallery({required this.images});
 
   @override
   Widget build(BuildContext context) {
-    double bucketProportion = 4 / attachments.length;
+    double bucketProportion = 4 / images.length;
 
     if (bucketProportion == 2) {
       return _render2(bucketProportion);
-    } else if (attachments.length > 1) {
+    } else if (images.length > 1) {
       return _render3(bucketProportion);
     }
 
     return Column(
-      children: attachments
-          .map((e) => ImageAttachment(
-                path: e.url!,
+      children: images
+          .map((e) => MiniGalleryImage(
+                image: e,
               ))
           .toList(),
     );
@@ -30,8 +30,8 @@ class ImageGallery extends StatelessWidget {
   Widget _render2(double bucketProportion) {
     return Row(
       children: [
-        ImageAttachment(
-          path: attachments[0].url!,
+        MiniGalleryImage(
+          image: images[0],
           isInList: true,
           index: 0,
           bucketProportion: bucketProportion,
@@ -41,8 +41,8 @@ class ImageGallery extends StatelessWidget {
             width: double.infinity,
           ),
         ),
-        ImageAttachment(
-          path: attachments[1].url!,
+        MiniGalleryImage(
+          image: images[1],
           isInList: true,
           index: 1,
           bucketProportion: bucketProportion,
@@ -54,8 +54,8 @@ class ImageGallery extends StatelessWidget {
   Widget _render3(double bucketProportion) {
     return Row(
       children: [
-        ImageAttachment(
-          path: attachments[0].url!,
+        MiniGalleryImage(
+          image: images[0],
           isInList: true,
           index: 0,
           bucketProportion: bucketProportion,
@@ -67,8 +67,8 @@ class ImageGallery extends StatelessWidget {
         ),
         Column(
           children: [
-            ImageAttachment(
-              path: attachments[1].url!,
+            MiniGalleryImage(
+              image: images[1],
               isInList: true,
               index: 1,
               bucketProportion: bucketProportion,
@@ -76,8 +76,8 @@ class ImageGallery extends StatelessWidget {
             Container(
             height: 2,
           ),
-            ImageAttachment(
-              path: attachments[2].url!,
+            MiniGalleryImage(
+              image: images[2],
               isInList: true,
               index: 2,
               bucketProportion: bucketProportion,

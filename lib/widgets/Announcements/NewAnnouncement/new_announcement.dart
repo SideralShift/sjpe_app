@@ -6,6 +6,8 @@ import 'package:app/services/announcement_service.dart';
 import 'package:app/services/attachment_service.dart';
 import 'package:app/services/storage_service.dart';
 import 'package:app/utils/app_colors.dart';
+import 'package:app/utils/classes/storage_asset.dart';
+import 'package:app/utils/classes/storage_image.dart';
 import 'package:app/utils/storage_constants.dart';
 import 'package:app/widgets/Announcements/NewAnnouncement/new_announcement_screen.dart';
 import 'package:app/widgets/Announcements/announcements_context.dart';
@@ -70,17 +72,28 @@ class NewAnnouncementState extends State<NewAnnouncement> {
     ImagePicker picker = ImagePicker();
     List<XFile?> selectedImages = await picker.pickMultiImage();
     if (selectedImages.isNotEmpty) {
-      List<AnnouncementAttachment> announcementAttachments = selectedImages
-          .map((image) => AnnouncementAttachment(
-              attachment: Attachment.fromXFile(image!,
-                  '${StorageConstants.pathAnnouncementsAttachments}/${image.name}')))
-          .toList();
+      List<AnnouncementAttachment> announcementAttachments = [];
 
-      for (AnnouncementAttachment announcentAttachment
-          in announcementAttachments) {
-        if (announcentAttachment.attachment.data == null) {
-          await announcentAttachment.attachment.loadData();
-        }
+      for (XFile? image in selectedImages) {
+        final path =
+            '${StorageConstants.pathAnnouncementsAttachments}/${image?.name}';
+
+        Uint8List? imageData = await image?.readAsBytes();
+        final imgMetadata = await decodeImageFromList(imageData!);
+        StorageImage imgStorage = StorageImage(
+            data: imageData,
+            path: path,
+            width: imgMetadata.width.toDouble(),
+            height: imgMetadata.height.toDouble());
+
+        Attachment attachment = Attachment.fromXFile(image!,
+            path:
+                '${StorageConstants.pathAnnouncementsAttachments}/${image.name}');
+
+        attachment.storageObject = imgStorage;
+        AnnouncementAttachment announcementAttachment =
+            AnnouncementAttachment(attachment: attachment);
+        announcementAttachments.add(announcementAttachment);
       }
       setState(() {
         newAnnouncement.attachments.addAll(announcementAttachments);
@@ -99,21 +112,18 @@ class NewAnnouncementState extends State<NewAnnouncement> {
   }
 
   Future<void> _uploadAnnouncementInfo() async {
-
     Announcement createdAnnouncement =
         await AnnouncementService.createAnnouncement(newAnnouncement);
 
     final uploadToFirebaseTasks =
         newAnnouncement.attachments.map((announcementAttachment) {
       return StorageService.saveToFolder(
-          announcementAttachment.attachment.data!,
-          (announcementAttachment.attachment.url)!);
+          announcementAttachment.attachment.storageObject!);
     }).toList();
 
     await Future.wait(uploadToFirebaseTasks!).catchError(() {
       _flushAnnouncement(createdAnnouncement);
     });
-
   }
 
   _flushAnnouncement(Announcement announcement) {

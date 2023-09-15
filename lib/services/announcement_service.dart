@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:app/models/announcement.dart';
+import 'package:app/models/announcement_attachment.dart';
+import 'package:app/services/storage_service.dart';
+import 'package:app/utils/classes/storage_image.dart';
 import 'package:app/utils/env_constants.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
@@ -39,5 +42,27 @@ class AnnouncementService {
     if (response.statusCode != HttpStatus.noContent) {
       throw Error();
     }
+  }
+
+  static loadAnnAtchsFromStorage(Announcement announcement) async {
+    List<Future<void>> loadImageJobs = [];
+
+    for (AnnouncementAttachment announcementAttachment
+        in announcement.attachments) {
+      Future<void> job = _getAnnouncementAttachmentData(announcementAttachment)
+          .catchError((error) {
+        print(error);
+      });
+      loadImageJobs.add(job);
+    }
+
+    await Future.wait(loadImageJobs);
+  }
+
+  static Future<void> _getAnnouncementAttachmentData(
+      AnnouncementAttachment announcementAttachment) async {
+    StorageImage? imageFromStorage = await StorageService.getImage(
+        path: announcementAttachment.attachment.url!);
+    announcementAttachment.attachment.storageObject = imageFromStorage;
   }
 }

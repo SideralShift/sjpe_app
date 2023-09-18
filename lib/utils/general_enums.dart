@@ -1,0 +1,1 @@
+enum SideIndex {right, left}

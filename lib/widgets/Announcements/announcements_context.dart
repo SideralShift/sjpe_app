@@ -3,6 +3,7 @@ import 'package:app/models/announcement_attachment.dart';
 import 'package:app/models/attachment.dart';
 import 'package:app/services/announcement_service.dart';
 import 'package:app/services/storage_service.dart';
+import 'package:app/services/user_service.dart';
 import 'package:app/utils/classes/storage_image.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +19,7 @@ class AnnouncementsContext extends ChangeNotifier {
     List<Future<void>> loadJobs = [];
 
     for (Announcement announcement in announcements) {
+      loadJobs.add(UserService.loadUserProfilePicture(announcement.user!));
       loadJobs.add(AnnouncementService.loadAnnAtchsFromStorage(announcement));
     }
 
@@ -27,7 +29,7 @@ class AnnouncementsContext extends ChangeNotifier {
     notifyListeners();
   }
 
-  addAnnouncement(Announcement announcement) async {
+  addAnnouncement(Announcement announcement) {
     announcements.insert(0, announcement);
   }
 
@@ -38,7 +40,9 @@ class AnnouncementsContext extends ChangeNotifier {
 
     await publishmentJob;
 
-    await addAnnouncement(newAnnouncement);
+    await UserService.loadUserProfilePicture(newAnnouncement.user!);
+
+    addAnnouncement(newAnnouncement);
     isPublishing = false;
     notifyListeners();
   }

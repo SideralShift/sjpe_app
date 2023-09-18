@@ -17,7 +17,18 @@ class BirthdayScreenState extends State<BirthdayScreen> {
   @override
   void initState() {
     super.initState();
-    usersFuture = UserService.getUsersBirthdays();
+    usersFuture = _getUsersBirthdays();
+  }
+
+  Future<List<UserModel>> _getUsersBirthdays() async {
+    List<UserModel> fetchedUsers = await UserService.getUsersBirthdays();
+    List<Future<void>> pictureLoadingJobs = fetchedUsers.map((user){
+      return UserService.loadUserProfilePicture(user);
+    }).toList();
+
+    await Future.wait(pictureLoadingJobs);
+
+    return fetchedUsers;
   }
 
   @override

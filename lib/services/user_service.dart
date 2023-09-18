@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:app/models/user.dart';
+import 'package:app/services/storage_service.dart';
+import 'package:app/utils/classes/storage_image.dart';
 import 'package:app/utils/env_constants.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
@@ -54,5 +56,9 @@ class UserService {
     final sortedUsers = [...todayUsers, ...otherUsers];
 
     return sortedUsers;
+  }
+
+  static Future<void> loadUserProfilePicture(UserModel user) async {
+    user.profilePictureImage = await StorageService.getImage(path: user.profilePictureUrl!);
   }
 }

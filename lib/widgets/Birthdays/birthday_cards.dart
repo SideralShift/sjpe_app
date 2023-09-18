@@ -22,10 +22,9 @@ class BirthdayBoyCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            UserAvatarFromStorage(
+            UserAvatar.fromStorage(
+              image: user.profilePictureImage!,
               radius: 30,
-              user: user,
-              path: user.profilePictureUrl ?? '',
             ),
             const SizedBox(height: 8.0),
             Text(
@@ -69,9 +68,8 @@ class BirthdayCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                UserAvatarFromStorage(
-                  user: user,
-                  path: user.profilePictureUrl ?? '',
+                UserAvatar.fromStorage(
+                  image: user.profilePictureImage!,
                 ),
                 const SizedBox(width: 8.0),
                 Expanded(

@@ -49,7 +49,7 @@ class AnnouncementScreenState extends State<AnnouncementScreenController>
             announcements: widget.announcementsState.announcements,
           );
         } else {
-          return const Center(child: Text('No hay datos'),);
+          return const Center(child: Text('No hay datos para mostrar'),);
         }
       },
     );

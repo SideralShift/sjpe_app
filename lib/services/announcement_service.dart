@@ -14,7 +14,7 @@ class AnnouncementService {
     String url = '${dotenv.env[EnvConstants.sjpeApiServer]}/announcements';
     http.Response response = await http.get(Uri.parse(url));
     if (response.body != '') {
-      return (jsonDecode(response.body) as List)
+      return (jsonDecode(utf8.decode(response.bodyBytes)) as List)
           .map((announcement) => Announcement.fromJson(announcement))
           .toList();
     }

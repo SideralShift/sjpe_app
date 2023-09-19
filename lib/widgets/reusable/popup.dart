@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class CustomAlert {
-  static void showCustomAlert({context, title, details}) {
+  static void showCustomAlert({context, String? title, details}) {
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: Text(title),
+        title: title != null ? Text(title) : null,
         content: Text(details),
         actions: [
           TextButton(

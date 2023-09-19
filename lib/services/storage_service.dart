@@ -18,6 +18,7 @@ class StorageService {
         await FirebaseStorage.instance.ref().child(path).getDownloadURL();
 
     FileInfo fileInfo = await DefaultCacheManager().downloadFile(url);
+    
 
     if (fileInfo.file.existsSync()) {
       Uint8List imageData = fileInfo.file.readAsBytesSync();
@@ -29,6 +30,8 @@ class StorageService {
         width: metadata.width.toDouble(),
         height: metadata.height.toDouble(),
       );
+
+      DefaultCacheManager().removeFile(url);
     }
 
     return image;

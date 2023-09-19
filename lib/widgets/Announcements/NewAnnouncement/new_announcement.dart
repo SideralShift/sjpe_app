@@ -12,6 +12,7 @@ import 'package:app/utils/storage_constants.dart';
 import 'package:app/widgets/Announcements/NewAnnouncement/new_announcement_screen.dart';
 import 'package:app/widgets/Announcements/announcements_context.dart';
 import 'package:app/widgets/app_context.dart';
+import 'package:app/widgets/reusable/popup.dart';
 import 'package:app/widgets/reusable/safe_dialog.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -68,9 +69,15 @@ class NewAnnouncementState extends State<NewAnnouncement> {
   Announcement newAnnouncement = Announcement(body: '', attachments: []);
   TextEditingController announcementBodyController = TextEditingController();
 
-  _pickImage() async {
+  _pickImage(BuildContext context) async {
+    int maxPhotosNum = 3 - newAnnouncement.attachments.length;
     ImagePicker picker = ImagePicker();
     List<XFile?> selectedImages = await picker.pickMultiImage();
+    if (selectedImages.length > maxPhotosNum) {
+      selectedImages = selectedImages.sublist(0, maxPhotosNum);
+      CustomAlert.showCustomAlert(context: context, details: 'Solo se puede agregar un maximo de 3 fotos');
+    }
+
     if (selectedImages.isNotEmpty) {
       List<AnnouncementAttachment> announcementAttachments = [];
 
@@ -140,7 +147,9 @@ class NewAnnouncementState extends State<NewAnnouncement> {
       announcementsContext: widget.announcementsContext,
       appContext: widget.appContext,
       attachedImages: attachments,
-      onAttachImagePressed: _pickImage,
+      onAttachImagePressed: (){
+        _pickImage(context);
+      },
       onPublishTap: _publishAnnouncement,
       announcementBodyController: announcementBodyController,
     );

@@ -17,6 +17,8 @@ class NewAnnouncementScreen extends StatelessWidget {
   final void Function() onAttachImagePressed;
   final List<Attachment> attachedImages;
   final void Function() onPublishTap;
+  final void Function(Attachment) onDelete;
+  final void Function(int, int) handleReorder;
 
   NewAnnouncementScreen(
       {super.key,
@@ -25,7 +27,9 @@ class NewAnnouncementScreen extends StatelessWidget {
       required this.onAttachImagePressed,
       required this.attachedImages,
       required this.onPublishTap,
-      required this.announcementBodyController});
+      required this.announcementBodyController,
+      required this.onDelete,
+      required this.handleReorder});
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +73,10 @@ class NewAnnouncementScreen extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.only(top: 10),
-                child: AttachedImages(loadedImages: attachedImages),
+                child: AttachedImages(
+                    loadedImages: attachedImages,
+                    onDelete: onDelete,
+                    handleReorder: handleReorder),
               )
             ],
           )),

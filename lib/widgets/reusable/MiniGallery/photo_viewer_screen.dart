@@ -50,7 +50,7 @@ class PhotoViewerScreen extends StatelessWidget {
                     Colors.transparent,
                     // Adjust the opacity and color as needed
                   ],
-                  stops: [
+                  stops: const [
                     0.0,
                     0.7
                   ], // Adjust the stops to control the gradient distribution
@@ -86,7 +86,7 @@ class PhotoViewerScreen extends StatelessWidget {
               right: 0,
               height: 150, // Fixed height
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.bottomCenter,
                     end: Alignment.center,

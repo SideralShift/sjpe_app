@@ -3,10 +3,8 @@ import 'package:app/models/announcement.dart';
 import 'package:app/models/announcement_attachment.dart';
 import 'package:app/models/attachment.dart';
 import 'package:app/services/announcement_service.dart';
-import 'package:app/services/attachment_service.dart';
 import 'package:app/services/storage_service.dart';
 import 'package:app/utils/app_colors.dart';
-import 'package:app/utils/classes/storage_asset.dart';
 import 'package:app/utils/classes/storage_image.dart';
 import 'package:app/utils/storage_constants.dart';
 import 'package:app/widgets/Announcements/NewAnnouncement/new_announcement_screen.dart';
@@ -14,7 +12,6 @@ import 'package:app/widgets/Announcements/announcements_context.dart';
 import 'package:app/widgets/app_context.dart';
 import 'package:app/widgets/reusable/popup.dart';
 import 'package:app/widgets/reusable/safe_dialog.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -75,7 +72,9 @@ class NewAnnouncementState extends State<NewAnnouncement> {
     List<XFile?> selectedImages = await picker.pickMultiImage();
     if (selectedImages.length > maxPhotosNum) {
       selectedImages = selectedImages.sublist(0, maxPhotosNum);
-      CustomAlert.showCustomAlert(context: context, details: 'Solo se puede agregar un maximo de 3 fotos');
+      CustomAlert.showCustomAlert(
+          context: context,
+          details: 'Solo se puede agregar un maximo de 3 fotos');
     }
 
     if (selectedImages.isNotEmpty) {
@@ -106,6 +105,25 @@ class NewAnnouncementState extends State<NewAnnouncement> {
         newAnnouncement.attachments.addAll(announcementAttachments);
       });
     }
+  }
+
+  void _deleteAttachment(Attachment attachment) {
+    setState(() {
+      newAnnouncement.attachments
+          .removeWhere((element) => element.attachment == attachment);
+    });
+  }
+
+  void _handleReorder(int oldIndex, int newIndex) {
+    AnnouncementAttachment backedAnnAtt = newAnnouncement.attachments[oldIndex];
+    if (oldIndex < newIndex) {
+      // removing the item at oldIndex will shorten the list by 1.
+      newIndex -= 1;
+    }
+    setState(() {
+      newAnnouncement.attachments.removeAt(oldIndex);
+      newAnnouncement.attachments.insert(newIndex, backedAnnAtt);
+    });
   }
 
   _publishAnnouncement() async {
@@ -147,9 +165,11 @@ class NewAnnouncementState extends State<NewAnnouncement> {
       announcementsContext: widget.announcementsContext,
       appContext: widget.appContext,
       attachedImages: attachments,
-      onAttachImagePressed: (){
+      onAttachImagePressed: () {
         _pickImage(context);
       },
+      handleReorder: _handleReorder,
+      onDelete: _deleteAttachment,
       onPublishTap: _publishAnnouncement,
       announcementBodyController: announcementBodyController,
     );

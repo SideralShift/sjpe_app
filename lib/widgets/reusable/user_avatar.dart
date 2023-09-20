@@ -9,10 +9,10 @@ class UserAvatar extends StatelessWidget {
 
   UserAvatar({this.radius = 20, this.foregroundImage});
 
-  factory UserAvatar.fromStorage({required StorageImage image, double radius = 20}) {
+  factory UserAvatar.fromStorage({StorageImage? image, double radius = 20}) {
     UserAvatar avatar = UserAvatar(
         radius: radius,
-        foregroundImage: Image.memory(image.data,).image,
+        foregroundImage: image != null ? Image.memory(image.data,).image : null,
       );
     return avatar;
   }

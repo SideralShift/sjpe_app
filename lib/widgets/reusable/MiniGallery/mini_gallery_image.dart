@@ -37,36 +37,51 @@ class _MiniGalleryImageState extends State<MiniGalleryImage> {
 
   @override
   Widget build(BuildContext context) {
-    ImageConfig imgConfig = _getImageConfig();
+    ImageConfig imgConfig =
+        widget.isInList == false ? _configBasedOnRatio() : _configIsInList();
 
-    return GestureDetector(
-      onTap: widget.onTap ?? (){},
-      child: ClipRRect(
-      borderRadius: imgConfig.generalRadius == 0 ? BorderRadius.only(
-          topLeft: Radius.circular(imgConfig.topLeftRadius),
-          topRight: Radius.circular(imgConfig.topRightRadius),
-          bottomLeft: Radius.circular(imgConfig.bottomLeftRadius),
-          bottomRight: Radius.circular(imgConfig.bottomRightRadius)) : BorderRadius.circular(imgConfig.generalRadius),
-      child: SizedBox(
-        width: imgConfig.width,
-        height: imgConfig.height,
-        child: widget.image, // Display the image
-      ),
-    ),
-    );
-  }
-
-  ImageConfig _getImageConfig() {
-    if (widget.image != null && widget.isInList == false) {
-      return _configBasedOnRatio();
-    } else if (widget.image != null && widget.isInList == true) {
-      return _configIsInList();
-    } else {
-      return ImageConfig(width: 200, height: 300);
-    }
+    return widget.image != null
+        ? GestureDetector(
+            onTap: widget.onTap ?? () {},
+            child: ClipRRect(
+              borderRadius: imgConfig.generalRadius == 0
+                  ? BorderRadius.only(
+                      topLeft: Radius.circular(imgConfig.topLeftRadius),
+                      topRight: Radius.circular(imgConfig.topRightRadius),
+                      bottomLeft: Radius.circular(imgConfig.bottomLeftRadius),
+                      bottomRight: Radius.circular(imgConfig.bottomRightRadius))
+                  : BorderRadius.circular(imgConfig.generalRadius),
+              child: SizedBox(
+                width: imgConfig.width,
+                height: imgConfig.height,
+                child: widget.image, // Display the image
+              ),
+            ),
+          )
+        : ClipRRect(
+            borderRadius: imgConfig.generalRadius == 0
+                ? BorderRadius.only(
+                    topLeft: Radius.circular(imgConfig.topLeftRadius),
+                    topRight: Radius.circular(imgConfig.topRightRadius),
+                    bottomLeft: Radius.circular(imgConfig.bottomLeftRadius),
+                    bottomRight: Radius.circular(imgConfig.bottomRightRadius))
+                : BorderRadius.circular(imgConfig.generalRadius),
+            child: Container(
+              color: Colors.grey,
+              width: imgConfig.width,
+              height: imgConfig.height, // Display the image
+            ),
+          );
   }
 
   ImageConfig _configBasedOnRatio() {
+    if (widget.image == null) {
+      return ImageConfig(
+          height: 190,
+          width: widget.maxWidth,
+          generalRadius: AppStyles.cardsBorderRadius);
+    }
+
     double ratio = (widget.image?.width)! / (widget.image?.height)!;
 
     if (ratio < 0.8) {

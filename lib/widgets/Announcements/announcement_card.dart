@@ -32,7 +32,7 @@ class AnnouncementCard extends StatelessWidget {
                     Column(
                       children: [
                         UserAvatar.fromStorage(
-                          image: (announcement.user?.profilePictureImage)!,
+                          image: announcement.user?.profilePictureImage,
                         )
                       ],
                     ),

@@ -23,7 +23,11 @@ class AnnouncementsContext extends ChangeNotifier {
       loadJobs.add(AnnouncementService.loadAnnAtchsFromStorage(announcement));
     }
 
-    await Future.wait(loadJobs);
+    try {
+      await Future.wait(loadJobs);
+    } catch (e) {
+      print(e);
+    }
 
     retrievingAnnouncements = false;
     notifyListeners();

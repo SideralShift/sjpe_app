@@ -1,5 +1,6 @@
 import 'package:app/utils/app_colors.dart';
 import 'package:app/widgets/app.dart';
+import 'package:app/widgets/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'firebase_options.dart';
@@ -16,6 +17,6 @@ Future<void> main() async {
   await initializeDateFormatting('es_ES', null);
   runApp(MaterialApp(
     theme: ThemeData(scaffoldBackgroundColor: AppStyles.mainBackgroundColor),
-    home: App(),
+    home: LoginScreen(),
   ));
 }

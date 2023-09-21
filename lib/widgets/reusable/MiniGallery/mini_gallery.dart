@@ -55,11 +55,9 @@ class MiniGallery extends StatelessWidget {
           index: 0,
           bucketProportion: bucketProportion,
         ),
-        Expanded(
-          child: Container(
-            width: double.infinity,
+         Container(
+            width: 2,
           ),
-        ),
         MiniGalleryImage(
           onTap: () {
             _showPhotoViewer(context, 1);

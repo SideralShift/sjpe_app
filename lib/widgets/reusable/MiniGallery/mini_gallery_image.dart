@@ -9,7 +9,6 @@ class MiniGalleryImage extends StatefulWidget {
   final bool isInList;
   final int index;
   final double bucketProportion;
-  final double maxWidth = 300;
   final Image? image;
   void Function()? onTap;
 
@@ -25,6 +24,8 @@ class MiniGalleryImage extends StatefulWidget {
 }
 
 class _MiniGalleryImageState extends State<MiniGalleryImage> {
+  late double maxWidth;
+
   @override
   void initState() {
     super.initState();
@@ -37,6 +38,8 @@ class _MiniGalleryImageState extends State<MiniGalleryImage> {
 
   @override
   Widget build(BuildContext context) {
+    maxWidth = MediaQuery.of(context).size.width*0.76;
+    
     ImageConfig imgConfig =
         widget.isInList == false ? _configBasedOnRatio() : _configIsInList();
 
@@ -78,7 +81,7 @@ class _MiniGalleryImageState extends State<MiniGalleryImage> {
     if (widget.image == null) {
       return ImageConfig(
           height: 190,
-          width: widget.maxWidth,
+          width: maxWidth,
           generalRadius: AppStyles.cardsBorderRadius);
     }
 
@@ -87,24 +90,25 @@ class _MiniGalleryImageState extends State<MiniGalleryImage> {
     if (ratio < 0.8) {
       return ImageConfig(
           height: 400,
-          width: widget.maxWidth,
+          width: maxWidth,
           generalRadius: AppStyles.cardsBorderRadius);
     } else if (ratio > 1.2) {
       return ImageConfig(
           height: 190,
-          width: widget.maxWidth,
+          width: maxWidth,
           generalRadius: AppStyles.cardsBorderRadius);
     } else {
       return ImageConfig(
           height: 300,
-          width: widget.maxWidth,
+          width: maxWidth,
           generalRadius: AppStyles.cardsBorderRadius);
     }
   }
 
   ImageConfig _configIsInList() {
     //0: left, 1 right
-    ImageConfig imgConfig = ImageConfig(width: widget.maxWidth / 2 - 5);
+    ImageConfig imgConfig = ImageConfig(width: maxWidth / 2 - 3);
+    print(maxWidth);
     final SideIndex sideIndex =
         widget.index == 0 ? SideIndex.left : SideIndex.right;
     const double baseHeight = 190;

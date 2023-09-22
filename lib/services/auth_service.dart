@@ -11,7 +11,7 @@ import '../utils/env_constants.dart';
 
 class AuthResult {
   final UserCredential? userCredential;
-  final String? error;
+  String? error;
 
   AuthResult({this.userCredential, this.error});
 }

@@ -13,8 +13,7 @@ class AppContext extends ChangeNotifier {
 
   getUserInfo() async {
     final prefs = await SharedPreferences.getInstance();
-    //String userId = prefs.get("userId") as String;
-    String userId = 'sJSqd8AwOpdU5EqiB4EFQG0Xse03';
+    String userId = prefs.get("userId") as String;
     loggedUser = await UserService.getUserByIdSJPE(userId) ?? loggedUser;
     loggedUser.profilePictureImage = await StorageService.getImage(path: (loggedUser.profilePictureUrl)!);
     notifyListeners();

@@ -20,7 +20,6 @@ class LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool isEmailVerified = true;
-  bool isPasswordVerified = true;
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusnode = FocusNode();
 
@@ -36,6 +35,15 @@ class LoginScreenState extends State<LoginScreen> {
         });
       }
     });
+  }
+
+  _onLoginTaped(BuildContext context) {
+    LoginValidationStates validationState = _validateForm(context);
+    if (validationState == LoginValidationStates.validForm) {
+      _loginUser(context);
+    } else {
+      _handleInvalidState(validationState);
+    }
   }
 
   LoginValidationStates _validateForm(BuildContext context) {
@@ -60,16 +68,13 @@ class LoginScreenState extends State<LoginScreen> {
         _emailFocusNode.requestFocus();
         break;
       case LoginValidationStates.invalidEmailFocused:
-        CustomAlert.showCustomAlert(
-            context: context,
-            details: 'Ingresa un correo valido');
+        CustomAlert.show(Alerts.wrongEmail, context);
         break;
       case LoginValidationStates.emptyPasswordNotFocused:
         _passwordFocusnode.requestFocus();
         break;
       case LoginValidationStates.emptyPasswordFocused:
-        CustomAlert.showCustomAlert(
-            context: context, details: 'Ingresa una contraseña');
+        CustomAlert.show(Alerts.emptyPassword, context);
         break;
       default:
     }
@@ -77,20 +82,11 @@ class LoginScreenState extends State<LoginScreen> {
 
   _hanldeLoginError(AuthResult authResult) {
     if (authResult.error == 'user-not-found') {
-      CustomAlert.showCustomAlert(
-          context: context,
-          title: TextConstants.loginInvalidUserTitle,
-          details: TextConstants.loginInvalidUserDetail);
+      CustomAlert.show(Alerts.invalidUser, context);
     } else if (authResult.error == 'wrong-password') {
-      CustomAlert.showCustomAlert(
-          context: context,
-          title: TextConstants.loginInvalidPasswordTitle,
-          details: TextConstants.loginInvalidPasswordDetail);
+      CustomAlert.show(Alerts.invalidPassword, context);
     } else {
-      CustomAlert.showCustomAlert(
-          context: context,
-          title: TextConstants.serverDownTitle,
-          details: TextConstants.serverDownDetail);
+      CustomAlert.show(Alerts.internalServerError, context);
     }
   }
 
@@ -98,38 +94,30 @@ class LoginScreenState extends State<LoginScreen> {
     final email = _emailController.text;
     final password = _passwordController.text;
 
-    if (email.isNotEmpty && password.isNotEmpty) {
-      final user = UserModel(
-        roles: [],
-        person: Person(name: '', email: email),
-        password: password,
-      );
-      final authResult = await AuthService.logginUser(user);
+    final user = UserModel(
+      roles: [],
+      person: Person(name: '', email: email),
+      password: password,
+    );
 
-      if (authResult.error != null) {
-        // Autenticación fallida, hacer algo aquí
-        _hanldeLoginError(authResult);
-      } else {
-        final String? idToken =
-            await authResult.userCredential?.user?.getIdToken();
-        //local storage
-        if (idToken != null && idToken != '') {
-          // Autenticación exitosa, hacer algo aquí
-          final prefs = await SharedPreferences.getInstance();
-          prefs.setString('customToken', idToken);
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => App()),
-          );
-        } else {
-          CustomAlert.showCustomAlert(
-              context: context,
-              title: TextConstants.serverDownTitle,
-              details: TextConstants.serverDownDetail);
-        }
-      }
+    final authResult = await AuthService.logginUser(user);
+
+    if (authResult.error != null) {
+      // Autenticación fallida, hacer algo aquí
+      _hanldeLoginError(authResult);
     } else {
-      // Mostrar mensaje de error si los campos están vacíos
+      final String? idToken =
+          await authResult.userCredential?.user?.getIdToken();
+      final String? uid = authResult.userCredential?.user?.uid;
+      //local storage
+      // Autenticación exitosa, hacer algo aquí
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString('customToken', idToken!);
+      prefs.setString('userId', uid!);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => App()),
+      );
     }
   }
 
@@ -174,12 +162,6 @@ class LoginScreenState extends State<LoginScreen> {
             child: TextFormField(
               controller: _passwordController,
               focusNode: _passwordFocusnode,
-              onEditingComplete: () {
-                setState(() {
-                  isPasswordVerified =
-                      _passwordController.text.trim().isNotEmpty;
-                });
-              },
               obscureText: true,
               decoration: const InputDecoration(labelText: 'Contraseña'),
             ),
@@ -189,12 +171,7 @@ class LoginScreenState extends State<LoginScreen> {
             height: 70, // Ajusta el ancho del botón a 200 puntos
             child: ElevatedButton(
               onPressed: () {
-                LoginValidationStates validationState = _validateForm(context);
-                if (validationState == LoginValidationStates.validForm) {
-                  _loginUser(context);
-                } else {
-                  _handleInvalidState(validationState);
-                }
+                _onLoginTaped(context);
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Color(0xFF6F0007)),
@@ -226,14 +203,9 @@ class LoginScreenState extends State<LoginScreen> {
   @override
   void dispose() {
     _emailFocusNode.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
-
-  bool get canSubmit =>
-      isEmailVerified &&
-      isPasswordVerified &&
-      _emailController.text.trim().isNotEmpty &&
-      _passwordController.text.trim().isNotEmpty;
 
   @override
   Widget build(BuildContext context) {

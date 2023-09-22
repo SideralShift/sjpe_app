@@ -13,7 +13,7 @@ class Person {
   int? age;
 
   Person(
-      {required this.id,
+      {this.id,
       required this.name,
       this.lastName,
       this.email,

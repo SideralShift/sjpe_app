@@ -1,4 +1,5 @@
 import 'package:app/services/auth_service.dart';
+import 'package:app/utils/login_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:app/models/user.dart';
 import 'package:app/models/person.dart';
@@ -21,6 +22,7 @@ class LoginScreenState extends State<LoginScreen> {
   bool isEmailVerified = true;
   bool isPasswordVerified = true;
   final FocusNode _emailFocusNode = FocusNode();
+  final FocusNode _passwordFocusnode = FocusNode();
 
   @override
   void initState() {
@@ -34,6 +36,101 @@ class LoginScreenState extends State<LoginScreen> {
         });
       }
     });
+  }
+
+  LoginValidationStates _validateForm(BuildContext context) {
+    if (!ValidationsUtils.isValidEmail(_emailController.text)) {
+      return _emailFocusNode.hasFocus
+          ? LoginValidationStates.invalidEmailFocused
+          : LoginValidationStates.invalidEmailNotFocused;
+    }
+
+    if (_passwordController.text == '') {
+      return _passwordFocusnode.hasFocus
+          ? LoginValidationStates.emptyPasswordFocused
+          : LoginValidationStates.emptyPasswordNotFocused;
+    }
+
+    return LoginValidationStates.validForm;
+  }
+
+  _handleInvalidState(LoginValidationStates state) {
+    switch (state) {
+      case LoginValidationStates.invalidEmailNotFocused:
+        _emailFocusNode.requestFocus();
+        break;
+      case LoginValidationStates.invalidEmailFocused:
+        CustomAlert.showCustomAlert(
+            context: context,
+            details: 'Ingresa un correo valido');
+        break;
+      case LoginValidationStates.emptyPasswordNotFocused:
+        _passwordFocusnode.requestFocus();
+        break;
+      case LoginValidationStates.emptyPasswordFocused:
+        CustomAlert.showCustomAlert(
+            context: context, details: 'Ingresa una contraseña');
+        break;
+      default:
+    }
+  }
+
+  _hanldeLoginError(AuthResult authResult) {
+    if (authResult.error == 'user-not-found') {
+      CustomAlert.showCustomAlert(
+          context: context,
+          title: TextConstants.loginInvalidUserTitle,
+          details: TextConstants.loginInvalidUserDetail);
+    } else if (authResult.error == 'wrong-password') {
+      CustomAlert.showCustomAlert(
+          context: context,
+          title: TextConstants.loginInvalidPasswordTitle,
+          details: TextConstants.loginInvalidPasswordDetail);
+    } else {
+      CustomAlert.showCustomAlert(
+          context: context,
+          title: TextConstants.serverDownTitle,
+          details: TextConstants.serverDownDetail);
+    }
+  }
+
+  _loginUser(BuildContext context) async {
+    final email = _emailController.text;
+    final password = _passwordController.text;
+
+    if (email.isNotEmpty && password.isNotEmpty) {
+      final user = UserModel(
+        roles: [],
+        person: Person(name: '', email: email),
+        password: password,
+      );
+      final authResult = await AuthService.logginUser(user);
+
+      if (authResult.error != null) {
+        // Autenticación fallida, hacer algo aquí
+        _hanldeLoginError(authResult);
+      } else {
+        final String? idToken =
+            await authResult.userCredential?.user?.getIdToken();
+        //local storage
+        if (idToken != null && idToken != '') {
+          // Autenticación exitosa, hacer algo aquí
+          final prefs = await SharedPreferences.getInstance();
+          prefs.setString('customToken', idToken);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => App()),
+          );
+        } else {
+          CustomAlert.showCustomAlert(
+              context: context,
+              title: TextConstants.serverDownTitle,
+              details: TextConstants.serverDownDetail);
+        }
+      }
+    } else {
+      // Mostrar mensaje de error si los campos están vacíos
+    }
   }
 
   _renderlogo() => const Padding(
@@ -76,6 +173,7 @@ class LoginScreenState extends State<LoginScreen> {
             padding: const EdgeInsets.only(bottom: 45),
             child: TextFormField(
               controller: _passwordController,
+              focusNode: _passwordFocusnode,
               onEditingComplete: () {
                 setState(() {
                   isPasswordVerified =
@@ -90,56 +188,14 @@ class LoginScreenState extends State<LoginScreen> {
             width: double.infinity,
             height: 70, // Ajusta el ancho del botón a 200 puntos
             child: ElevatedButton(
-              onPressed: canSubmit
-                  ? () async {
-                      final email = _emailController.text;
-                      final password = _passwordController.text;
-
-                      if (email.isNotEmpty && password.isNotEmpty) {
-                        final user = UserModel(
-                          roles: [],
-                          person: Person(id: 1, name: '', email: email),
-                          password: password,
-                        );
-                        final authResult = await AuthService.logginUser(user);
-                        final String idToken = await authResult
-                                ?.userCredential?.user
-                                ?.getIdToken() ??
-                            '';
-                        //local storage
-                        if (idToken != '') {
-                          // Autenticación exitosa, hacer algo aquí
-                          final prefs = await SharedPreferences.getInstance();
-                          prefs.setString('customToken', idToken);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => App()),
-                          );
-                        } else {
-                          // Autenticación fallida, hacer algo aquí
-                          if (authResult?.error == 'user-not-found') {
-                            CustomAlert.showCustomAlert(
-                                context: context,
-                                title: TextConstants.loginInvalidUserTitle,
-                                details: TextConstants.loginInvalidUserDetail);
-                          } else if (authResult?.error == 'wrong-password') {
-                            CustomAlert.showCustomAlert(
-                                context: context,
-                                title: TextConstants.loginInvalidPasswordTitle,
-                                details:
-                                    TextConstants.loginInvalidPasswordDetail);
-                          } else {
-                            CustomAlert.showCustomAlert(
-                                context: context,
-                                title: TextConstants.serverDownTitle,
-                                details: TextConstants.serverDownDetail);
-                          }
-                        }
-                      } else {
-                        // Mostrar mensaje de error si los campos están vacíos
-                      }
-                    }
-                  : null,
+              onPressed: () {
+                LoginValidationStates validationState = _validateForm(context);
+                if (validationState == LoginValidationStates.validForm) {
+                  _loginUser(context);
+                } else {
+                  _handleInvalidState(validationState);
+                }
+              },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Color(0xFF6F0007)),
                 foregroundColor: MaterialStateProperty.all(Colors.white),

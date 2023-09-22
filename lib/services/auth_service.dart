@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:app/models/user.dart';
@@ -14,31 +17,47 @@ class AuthResult {
 }
 
 class AuthService {
-  static Future<AuthResult?> logginUser(UserModel user) async {
-    AuthResult result;
+  static Future<String> _getCustomToken(String uid) async {
+    http.Response response = await http.get(
+      Uri.parse(
+          '${dotenv.env[EnvConstants.sjpeApiServerAndroid]}/auth/token/$uid'),
+    );
 
+    if (response.statusCode != HttpStatus.ok) {
+      throw HttpExceptionWithStatus(response.statusCode, response.body);
+    }
+
+    return jsonDecode(response.body)['token'];
+  }
+
+  static Future<AuthResult> logginUser(UserModel user) async {
     try {
       final email = user.person?.email ?? '';
       final password = user.password ?? '';
-      if (email.isNotEmpty) {
-        final credential = await FirebaseAuth.instance
-            .signInWithEmailAndPassword(email: email, password: password);
-        final userResult = credential.user;
 
-        final response = await http.get(
-          Uri.parse(
-              '${dotenv.env[EnvConstants.sjpeApiServerAndroid]}/auth/token/${userResult?.uid}'),
-        );
-        final responsejson = jsonDecode(response.body);
-        final userCredential = await FirebaseAuth.instance
-            .signInWithCustomToken(responsejson['token']);
-        result = AuthResult(userCredential: userCredential, error: null);
-      } else {
-        result = AuthResult(userCredential: null, error: 'email-empty');
+      final credential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+      final userResult = credential.user;
+
+      if (userResult == null) {
+        return AuthResult(userCredential: null, error: 'user-not-found');
       }
+
+      String customToken = await _getCustomToken(userResult.uid);
+
+      final userCredential =
+          await FirebaseAuth.instance.signInWithCustomToken(customToken);
+
+      return AuthResult(userCredential: userCredential, error: null);
     } on FirebaseAuthException catch (e) {
-      result = AuthResult(userCredential: null, error: e.code);
+      return AuthResult(userCredential: null, error: e.code);
+    } on HttpExceptionWithStatus catch (e) {
+      switch (e.statusCode) {
+        case HttpStatus.notFound:
+          return AuthResult(userCredential: null, error: 'user-not-found');
+        default:
+          return AuthResult(userCredential: null, error: 'internal-server-error');
+      }
     }
-    return result;
   }
 }

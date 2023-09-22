@@ -114,10 +114,7 @@ class LoginScreenState extends State<LoginScreen> {
       final prefs = await SharedPreferences.getInstance();
       prefs.setString('customToken', idToken!);
       prefs.setString('userId', uid!);
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => App()),
-      );
+      Navigator.pushReplacementNamed(context, '/app');
     }
   }
 

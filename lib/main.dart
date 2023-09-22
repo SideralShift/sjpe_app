@@ -16,7 +16,11 @@ Future<void> main() async {
   );
   await initializeDateFormatting('es_ES', null);
   runApp(MaterialApp(
-    theme: ThemeData(scaffoldBackgroundColor: AppStyles.mainBackgroundColor),
-    home: LoginScreen(),
-  ));
+      theme: ThemeData(scaffoldBackgroundColor: AppStyles.mainBackgroundColor),
+      home: LoginScreen(),
+      routes: {
+        '/login': (context) => LoginScreen(),
+        '/app': (context) => App(),
+        // Add more routes as needed
+      }));
 }

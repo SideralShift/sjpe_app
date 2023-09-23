@@ -102,6 +102,7 @@ class _AppState extends State<AppController> {
     return Scaffold(
       appBar: _pages[_actualIndex]['toolbar'] as PreferredSizeWidget,
       body: PageView(
+        physics: const NeverScrollableScrollPhysics(),
         controller: _pageController,
         children: _pages.map(_mapWidgets).toList(),
       ),

@@ -20,6 +20,7 @@ class LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool isEmailVerified = true;
+  bool isLoading = false;
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusnode = FocusNode();
 
@@ -91,6 +92,9 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   _loginUser(BuildContext context) async {
+    setState(() {
+      isLoading = true;
+    });
     final email = _emailController.text;
     final password = _passwordController.text;
 
@@ -103,7 +107,10 @@ class LoginScreenState extends State<LoginScreen> {
     final authResult = await AuthService.logginUser(user);
 
     if (authResult.error != null) {
-      // Autenticación fallida, hacer algo aquí
+      // Autenticación fallida, hacer algo aquíz
+      setState(() {
+        isLoading = false;
+      });
       _hanldeLoginError(authResult);
     } else {
       final String? idToken =
@@ -112,7 +119,7 @@ class LoginScreenState extends State<LoginScreen> {
       //local storage
       // Autenticación exitosa, hacer algo aquí
       final prefs = await SharedPreferences.getInstance();
-      prefs.setString('customToken', idToken!);
+      prefs.setString('idToken', idToken!);
       prefs.setString('userId', uid!);
       Navigator.pushReplacementNamed(context, '/app');
     }
@@ -145,6 +152,7 @@ class LoginScreenState extends State<LoginScreen> {
           Padding(
             padding: const EdgeInsets.only(bottom: 20),
             child: TextFormField(
+              readOnly: isLoading,
               controller: _emailController,
               focusNode: _emailFocusNode,
               onEditingComplete: () {},
@@ -157,6 +165,7 @@ class LoginScreenState extends State<LoginScreen> {
           Padding(
             padding: const EdgeInsets.only(bottom: 45),
             child: TextFormField(
+              readOnly: isLoading,
               controller: _passwordController,
               focusNode: _passwordFocusnode,
               obscureText: true,
@@ -176,7 +185,12 @@ class LoginScreenState extends State<LoginScreen> {
                 textStyle:
                     MaterialStateProperty.all(const TextStyle(fontSize: 15)),
               ),
-              child: const Text('INICIAR SESION'),
+              child: isLoading
+                  ? const CircularProgressIndicator(
+                      strokeWidth: 2.0,
+                      color: Colors.white,
+                    )
+                  : const Text('INICIAR SESION'),
             ),
           ),
           Padding(

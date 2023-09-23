@@ -56,7 +56,8 @@ class AuthService {
         case HttpStatus.notFound:
           return AuthResult(userCredential: null, error: 'user-not-found');
         default:
-          return AuthResult(userCredential: null, error: 'internal-server-error');
+          return AuthResult(
+              userCredential: null, error: 'internal-server-error');
       }
     }
   }

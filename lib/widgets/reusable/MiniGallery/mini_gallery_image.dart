@@ -108,7 +108,6 @@ class _MiniGalleryImageState extends State<MiniGalleryImage> {
   ImageConfig _configIsInList() {
     //0: left, 1 right
     ImageConfig imgConfig = ImageConfig(width: maxWidth / 2 - 3);
-    print(maxWidth);
     final SideIndex sideIndex =
         widget.index == 0 ? SideIndex.left : SideIndex.right;
     const double baseHeight = 190;

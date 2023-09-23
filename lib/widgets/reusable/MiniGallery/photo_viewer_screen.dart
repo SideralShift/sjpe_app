@@ -4,8 +4,9 @@ import 'package:photo_view/photo_view_gallery.dart';
 
 class PhotoViewerScreen extends StatelessWidget {
   final List<Image?> images;
+  final int currentIndex;
 
-  PhotoViewerScreen({required this.images});
+  PhotoViewerScreen({required this.images, this.currentIndex = 0});
 
   _closePhotoViewer(BuildContext context) {
     Navigator.of(context).pop();
@@ -28,6 +29,7 @@ class PhotoViewerScreen extends StatelessWidget {
         children: [
           // Image with fitted box
           PhotoViewGallery(
+            pageController: PageController(initialPage: currentIndex),
             pageOptions: images
                 .map(
                     (e) => PhotoViewGalleryPageOptions(imageProvider: e?.image))

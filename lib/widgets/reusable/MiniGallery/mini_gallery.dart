@@ -20,7 +20,7 @@ class MiniGallery extends StatelessWidget {
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       pageBuilder: (BuildContext buildContext, Animation animation,
           Animation secondaryAnimation) {
-        return PhotoViewerScreen(images: images);
+        return PhotoViewerScreen(images: images, currentIndex: index,);
       },
     );
   }

@@ -1,6 +1,4 @@
-import 'package:app/models/user.dart';
 import 'package:app/utils/classes/storage_image.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 class UserAvatar extends StatelessWidget {
@@ -23,6 +21,7 @@ class UserAvatar extends StatelessWidget {
       child: CircleAvatar(
         radius: radius,
         foregroundImage: foregroundImage,
+        backgroundColor: Colors.grey.shade300,
       ),
     );
   }

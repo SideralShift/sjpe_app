@@ -3,6 +3,7 @@ import 'package:app/widgets/app.dart';
 import 'package:app/widgets/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -15,11 +16,15 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await initializeDateFormatting('es_ES', null);
+
+  final prefs = await SharedPreferences.getInstance();
+  String? idToken = prefs.getString('idToken');
+
   runApp(MaterialApp(
       theme: ThemeData(scaffoldBackgroundColor: AppStyles.mainBackgroundColor),
-      home: LoginScreen(),
+      initialRoute: idToken != null ? '/app' : '/login',
       routes: {
-        '/login': (context) => LoginScreen(),
+        '/login': (context) => const LoginScreen(),
         '/app': (context) => App(),
         // Add more routes as needed
       }));

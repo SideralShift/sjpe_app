@@ -18,4 +18,10 @@ class AppContext extends ChangeNotifier {
     loggedUser.profilePictureImage = await StorageService.getImage(path: (loggedUser.profilePictureUrl)!);
     notifyListeners();
   }
+
+  cleanUserSession() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('idToken');
+    prefs.remove('userId');
+  }
 }

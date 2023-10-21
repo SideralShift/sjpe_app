@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
 class PhotoViewerScreen extends StatelessWidget {
@@ -31,8 +32,12 @@ class PhotoViewerScreen extends StatelessWidget {
           PhotoViewGallery(
             pageController: PageController(initialPage: currentIndex),
             pageOptions: images
-                .map(
-                    (e) => PhotoViewGalleryPageOptions(imageProvider: e?.image))
+                .map((e) => PhotoViewGalleryPageOptions(
+                      imageProvider: e?.image,
+                      minScale:
+                          PhotoViewComputedScale.contained * 1.0,
+                      maxScale: PhotoViewComputedScale.covered * 3.1,
+                    ))
                 .toList(),
           ),
 

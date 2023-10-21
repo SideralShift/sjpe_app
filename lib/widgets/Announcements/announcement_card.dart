@@ -7,6 +7,7 @@ import 'package:app/widgets/reusable/MiniGallery/mini_gallery.dart';
 import 'package:app/widgets/reusable/formatted_name_role.dart';
 import 'package:app/widgets/reusable/user_avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AnnouncementCard extends StatelessWidget {
   final Announcement announcement;
@@ -106,7 +107,10 @@ class AnnouncementCard extends StatelessWidget {
                   Flexible(
                       child: Text(
                     announcement.body,
-                    style: const TextStyle(fontSize: 13),
+                    style: GoogleFonts.openSans(
+                    color:
+                        Colors.black, // Change this color to your desired color
+                    fontSize: 13),
                     textAlign: TextAlign.justify,
                   )),
                 ],

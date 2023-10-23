@@ -51,37 +51,6 @@ class _AppState extends State<AppController> {
       "floatingButton": NewAnnouncementDialog()
     },
     {"toolbar": ToolBar(), "body": const Text('Grupos page')},
-    {
-      "toolbar": AppBar(
-        elevation: 0,
-        titleSpacing: 10,
-        centerTitle: false,
-        backgroundColor: AppStyles.mainBackgroundColor,
-        title: Row(
-          children: [
-            Text('Cumpleaños',
-                style: GoogleFonts.openSans(
-                    color:
-                        Colors.black, // Change this color to your desired color
-                    fontWeight: FontWeight.bold,
-                    fontSize: 26)),
-          ],
-        ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 12),
-            child: CircleAvatar(
-              radius:
-                  20.0, // Adjust this value to change the size of the CircleAvatar
-              backgroundColor: Colors
-                  .red, // Customize the background color of the CircleAvatar
-              foregroundImage: AssetImage('lib/assets/user_images/jacob.jpg'),
-            ),
-          )
-        ],
-      ),
-      "body": const BirthdayScreen()
-    },
     {"toolbar": ToolBar(), "body": const Text('Calendario page')},
     {"toolbar": ToolBar(), "body": const Text('Mas page')}
   ];
@@ -120,8 +89,6 @@ class _AppState extends State<AppController> {
               icon: Icon(Icons.groups_outlined),
               label: 'Grupos',
             ),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.calendar_today_outlined), label: 'Cumples'),
             BottomNavigationBarItem(
               icon: Icon(Icons.calendar_month_outlined),
               label: 'Calendario',

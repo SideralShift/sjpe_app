@@ -16,11 +16,12 @@ Person _$PersonFromJson(Map<String, dynamic> json) => Person(
           ? null
           : DateTime.parse(json['birthdate'] as String),
       age: json['age'] as int?,
-    );
+    )..middleName = json['middleName'] as String?;
 
 Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+      'middleName': instance.middleName,
       'lastName': instance.lastName,
       'email': instance.email,
       'phoneNumber': instance.phoneNumber,

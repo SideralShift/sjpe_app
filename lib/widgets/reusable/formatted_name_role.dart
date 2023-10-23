@@ -14,7 +14,7 @@ class FormattedNameRole extends StatelessWidget {
     return Row(
       children: [
         Text(
-          '${user.person?.name} ${user.person?.lastName}',
+          user.person.getShortName(),
           style: GoogleFonts.roboto(
               fontSize: fontSize, fontWeight: FontWeight.w600),
         ),

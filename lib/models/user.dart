@@ -10,7 +10,7 @@ class UserModel {
   final String? id;
   final String? userName;
   final String? password;
-  final Person? person;
+  final Person person;
   final Role? mainRole;
 
   @JsonKey(defaultValue: [])

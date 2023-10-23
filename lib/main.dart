@@ -1,4 +1,5 @@
 import 'package:app/utils/app_colors.dart';
+import 'package:app/widgets/Profile/profile.dart';
 import 'package:app/widgets/app.dart';
 import 'package:app/widgets/login.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -28,6 +29,7 @@ Future<void> main() async {
       routes: {
         '/login': (context) => const LoginScreen(),
         '/app': (context) => App(),
+        '/profile': (context) => Profile()
         // Add more routes as needed
       }));
 }

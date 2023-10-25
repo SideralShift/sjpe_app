@@ -2,8 +2,6 @@ import 'package:app/models/person.dart';
 import 'package:app/models/user.dart';
 import 'package:app/services/storage_service.dart';
 import 'package:app/services/user_service.dart';
-import 'package:app/utils/classes/storage_image.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';

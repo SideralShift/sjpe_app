@@ -7,7 +7,7 @@ import 'package:app/utils/months_utils.dart';
 class BirthdayBoyCard extends StatelessWidget {
   UserModel user;
 
-  BirthdayBoyCard({required this.user});
+  BirthdayBoyCard({super.key, required this.user});
 
   Widget build(BuildContext context) {
     final userBirthDate = user.person?.birthdate;
@@ -50,7 +50,7 @@ class BirthdayBoyCard extends StatelessWidget {
 class BirthdayCard extends StatelessWidget {
   UserModel user;
 
-  BirthdayCard({required this.user});
+  BirthdayCard({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {

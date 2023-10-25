@@ -6,7 +6,7 @@ class NewAnnouncementToolBar extends StatelessWidget{
   final AnnouncementsContext announcementsContext;
   final void Function() onPublishTap;
 
-  NewAnnouncementToolBar({required this.announcementsContext, required this.onPublishTap});
+  const NewAnnouncementToolBar({super.key, required this.announcementsContext, required this.onPublishTap});
   
   @override
   Widget build(BuildContext context) {

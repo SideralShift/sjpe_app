@@ -7,7 +7,7 @@ class PhotoViewerScreen extends StatelessWidget {
   final List<Image?> images;
   final int currentIndex;
 
-  PhotoViewerScreen({required this.images, this.currentIndex = 0});
+  const PhotoViewerScreen({super.key, required this.images, this.currentIndex = 0});
 
   _closePhotoViewer(BuildContext context) {
     Navigator.of(context).pop();
@@ -77,7 +77,7 @@ class PhotoViewerScreen extends StatelessWidget {
                         },
                         backgroundColor: Colors.white,
                         foregroundColor: Colors.black,
-                        child: Icon(Icons.close),
+                        child: const Icon(Icons.close),
                       ),
                     ),
                   )

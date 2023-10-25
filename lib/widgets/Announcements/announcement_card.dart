@@ -5,7 +5,6 @@ import 'package:app/utils/classes/storage_image.dart';
 import 'package:app/utils/date_utils.dart';
 import 'package:app/widgets/reusable/MiniGallery/mini_gallery.dart';
 import 'package:app/widgets/reusable/formatted_name_role.dart';
-import 'package:app/widgets/reusable/user_avatar.dart';
 import 'package:app/widgets/reusable/user_profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,7 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 class AnnouncementCard extends StatelessWidget {
   final Announcement announcement;
 
-  const AnnouncementCard({required this.announcement});
+  const AnnouncementCard({super.key, required this.announcement});
 
   @override
   Widget build(BuildContext context) {

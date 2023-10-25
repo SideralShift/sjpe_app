@@ -49,20 +49,20 @@ class NewAnnouncementScreen extends StatelessWidget {
               Row(
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: 14),
+                    padding: const EdgeInsets.only(top: 14),
                     child: UserAvatar.fromStorage(
                       image: appContext.loggedUser.profilePictureImage,
                     ),
                   ),
                   Padding(
-                      padding: EdgeInsets.only(left: 10),
+                      padding: const EdgeInsets.only(left: 10),
                       child: FormattedNameRole(
                         user: appContext.loggedUser,
                       )),
                 ],
               ),
               Padding(
-                padding: EdgeInsets.only(top: 18, left: 4),
+                padding: const EdgeInsets.only(top: 18, left: 4),
                 child: TextField(
                     controller: announcementBodyController,
                     focusNode: _focusNode,
@@ -72,7 +72,7 @@ class NewAnnouncementScreen extends StatelessWidget {
                         hintStyle: TextStyle(fontSize: 15))),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.only(top: 10),
                 child: AttachedImages(
                     loadedImages: attachedImages,
                     onDelete: onDelete,

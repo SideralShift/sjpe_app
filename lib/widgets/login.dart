@@ -3,10 +3,8 @@ import 'package:app/utils/login_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:app/models/user.dart';
 import 'package:app/models/person.dart';
-import 'package:app/widgets/app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:app/widgets/reusable/popup.dart';
-import 'package:app/utils/text_constants.dart';
 import 'package:app/utils/validations_utils.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -180,7 +178,7 @@ class LoginScreenState extends State<LoginScreen> {
                 _onLoginTaped(context);
               },
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Color(0xFF6F0007)),
+                backgroundColor: MaterialStateProperty.all(const Color(0xFF6F0007)),
                 foregroundColor: MaterialStateProperty.all(Colors.white),
                 textStyle:
                     MaterialStateProperty.all(const TextStyle(fontSize: 15)),
@@ -194,7 +192,7 @@ class LoginScreenState extends State<LoginScreen> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 20),
+            padding: const EdgeInsets.only(top: 20),
             child: TextButton(
                 onPressed: () {},
                 child: const Text(

@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 
 import 'package:app/utils/classes/storage_asset.dart';
 import 'package:image_picker/image_picker.dart';

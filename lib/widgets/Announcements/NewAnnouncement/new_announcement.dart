@@ -17,6 +17,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class NewAnnouncementDialog extends StatelessWidget {
+  const NewAnnouncementDialog({super.key});
+
   @override
   Widget build(BuildContext context) {
     final announcementsContext =
@@ -55,8 +57,8 @@ class NewAnnouncement extends StatefulWidget {
   final AnnouncementsContext announcementsContext;
   final AppContext appContext;
 
-  NewAnnouncement(
-      {required this.announcementsContext, required this.appContext});
+  const NewAnnouncement(
+      {super.key, required this.announcementsContext, required this.appContext});
 
   @override
   State<StatefulWidget> createState() => NewAnnouncementState();
@@ -146,7 +148,7 @@ class NewAnnouncementState extends State<NewAnnouncement> {
           announcementAttachment.attachment.storageObject!);
     }).toList();
 
-    await Future.wait(uploadToFirebaseTasks!).catchError(() {
+    await Future.wait(uploadToFirebaseTasks).catchError(() {
       _flushAnnouncement(createdAnnouncement);
     });
   }

@@ -1,6 +1,4 @@
 import 'package:app/models/user.dart';
-import 'package:app/utils/classes/storage_image.dart';
-import 'package:app/utils/general_constants.dart';
 import 'package:app/widgets/reusable/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
@@ -10,12 +8,12 @@ class UserProfileAvatar extends StatelessWidget {
   final double radius;
   final ImageProvider? foregroundImage;
 
-  UserProfileAvatar(
-      {required this.user, this.radius = 20, this.foregroundImage});
+  const UserProfileAvatar(
+      {super.key, required this.user, this.radius = 20, this.foregroundImage});
 
   @override
   Widget build(BuildContext context) {
-    String heroId = Uuid().v1();
+    String heroId = const Uuid().v1();
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, '/profile', arguments: {

@@ -1,16 +1,15 @@
 import 'package:app/widgets/Announcements/announcements_context.dart';
 import 'package:app/widgets/Announcements/announcements_screen.dart';
 import 'package:app/widgets/Announcements/NewAnnouncement/new_announcement.dart';
-import 'package:app/widgets/Birthdays/birthday_screen.dart';
 import 'package:app/widgets/app_context.dart';
 import 'package:app/widgets/tool_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:google_fonts/google_fonts.dart';
-import '../utils/app_colors.dart';
 
 class App extends StatelessWidget {
+  const App({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -18,12 +17,14 @@ class App extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => AnnouncementsContext()),
         ChangeNotifierProvider(create: (context) => AppContext())
       ],
-      child: AppController(),
+      child: const AppController(),
     );
   }
 }
 
 class AppController extends StatefulWidget {
+  const AppController({super.key});
+
   @override
   _AppState createState() => _AppState();
 }
@@ -41,18 +42,18 @@ class _AppState extends State<AppController> {
 
   final List<Map<String, Widget>> _pages = [
     {
-      "toolbar": ToolBar(),
+      "toolbar": const ToolBar(),
       "body": Consumer<AnnouncementsContext>(
         builder: (context, announcementsState, child) =>
             AnnouncementScreenController(
           announcementsState: announcementsState,
         ),
       ),
-      "floatingButton": NewAnnouncementDialog()
+      "floatingButton": const NewAnnouncementDialog()
     },
-    {"toolbar": ToolBar(), "body": const Text('Grupos page')},
-    {"toolbar": ToolBar(), "body": const Text('Calendario page')},
-    {"toolbar": ToolBar(), "body": const Text('Mas page')}
+    {"toolbar": const ToolBar(), "body": const Text('Grupos page')},
+    {"toolbar": const ToolBar(), "body": const Text('Calendario page')},
+    {"toolbar": const ToolBar(), "body": const Text('Mas page')}
   ];
 
   void _onNavBarTap(int index) {

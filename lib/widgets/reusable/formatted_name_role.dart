@@ -7,7 +7,7 @@ class FormattedNameRole extends StatelessWidget {
   final UserModel user;
   final double fontSize;
 
-  FormattedNameRole({required this.user, this.fontSize = 14});
+  const FormattedNameRole({super.key, required this.user, this.fontSize = 14});
 
   @override
   Widget build(BuildContext context) {

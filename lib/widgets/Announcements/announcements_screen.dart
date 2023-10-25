@@ -7,7 +7,7 @@ import 'package:app/models/announcement.dart';
 class AnnouncementScreenController extends StatefulWidget {
   final AnnouncementsContext announcementsState;
 
-  AnnouncementScreenController({required this.announcementsState});
+  const AnnouncementScreenController({super.key, required this.announcementsState});
   @override
   State<StatefulWidget> createState() => AnnouncementScreenState();
 }
@@ -32,10 +32,10 @@ class AnnouncementScreenState extends State<AnnouncementScreenController>
       future: announcementsFutue,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return AnnouncementsScreen(
+          return const AnnouncementsScreen(
             retrievingAnnouncements: true,
             isPublishing: false,
-            announcements: const [],
+            announcements: [],
           );
         } 
         else if (snapshot.connectionState == ConnectionState.done && snapshot.hasError) {
@@ -61,8 +61,8 @@ class AnnouncementsScreen extends StatelessWidget {
   final bool retrievingAnnouncements;
   final bool isPublishing;
 
-  AnnouncementsScreen(
-      {required this.announcements,
+  const AnnouncementsScreen(
+      {super.key, required this.announcements,
       required this.retrievingAnnouncements,
       required this.isPublishing});
 
@@ -78,7 +78,7 @@ class AnnouncementsScreen extends StatelessWidget {
           ];
 
     if (isPublishing) {
-      shownWidgets.insert(0, AnnouncementShimmer());
+      shownWidgets.insert(0, const AnnouncementShimmer());
     }
 
     return Padding(

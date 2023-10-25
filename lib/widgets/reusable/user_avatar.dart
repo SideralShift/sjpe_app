@@ -5,7 +5,7 @@ class UserAvatar extends StatelessWidget {
   final double radius;
   final ImageProvider? foregroundImage;
 
-  UserAvatar({this.radius = 20, this.foregroundImage});
+  const UserAvatar({super.key, this.radius = 20, this.foregroundImage});
 
   factory UserAvatar.fromStorage({StorageImage? image, double radius = 20}) {
     UserAvatar avatar = UserAvatar(

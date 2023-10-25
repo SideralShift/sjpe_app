@@ -1,16 +1,12 @@
-import 'package:app/models/attachment.dart';
-import 'package:app/utils/classes/storage_image.dart';
 import 'package:app/widgets/reusable/MiniGallery/mini_gallery_image.dart';
 import 'package:app/widgets/reusable/MiniGallery/photo_viewer_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:photo_view/photo_view.dart';
-import 'package:photo_view/photo_view_gallery.dart';
 
 class MiniGallery extends StatelessWidget {
   List<Image?> images = [];
 
-  MiniGallery({required this.images});
+  MiniGallery({super.key, required this.images});
 
   _showPhotoViewer(BuildContext context, int index) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);

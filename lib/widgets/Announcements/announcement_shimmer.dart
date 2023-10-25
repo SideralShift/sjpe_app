@@ -14,7 +14,7 @@ const announcementsPlaceholders = [
 class AnnouncementShimmer extends StatelessWidget {
   final bool extraLine;
 
-  const AnnouncementShimmer({this.extraLine = false});
+  const AnnouncementShimmer({super.key, this.extraLine = false});
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -31,7 +31,7 @@ class AnnouncementShimmer extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
+                  const Column(
                     children: [
                       CircleAvatar(),
                     ],

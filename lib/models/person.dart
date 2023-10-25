@@ -1,3 +1,4 @@
+import 'package:app/models/address.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'person.g.dart';
 
@@ -12,6 +13,7 @@ class Person {
   String? phoneNumber;
   DateTime? birthdate;
   int? age;
+  Address? address;
 
   Person(
       {this.id,
@@ -20,7 +22,8 @@ class Person {
       this.email,
       this.phoneNumber,
       this.birthdate,
-      this.age});
+      this.age,
+      this.address});
 
   factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
 

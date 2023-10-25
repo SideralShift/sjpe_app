@@ -9,7 +9,7 @@ class AttachedImages extends StatelessWidget {
   final void Function(int, int) handleReorder;
 
   AttachedImages(
-      {required this.loadedImages,
+      {super.key, required this.loadedImages,
       required this.onDelete,
       required this.handleReorder});
 
@@ -59,11 +59,11 @@ class AttachmentImage extends StatelessWidget {
   final Attachment image;
   final void Function(Attachment) onDelete;
 
-  AttachmentImage({required this.image, required this.onDelete, key})
+  const AttachmentImage({required this.image, required this.onDelete, key})
       : super(key: key);
 
   _renderDeleteButton() => Padding(
-        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 3),
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
         child: SizedBox(
           height: 24,
           child: FloatingActionButton(

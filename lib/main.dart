@@ -28,8 +28,8 @@ Future<void> main() async {
       initialRoute: idToken != null ? '/app' : '/login',
       routes: {
         '/login': (context) => const LoginScreen(),
-        '/app': (context) => App(),
-        '/profile': (context) => Profile()
+        '/app': (context) => const App(),
+        '/profile': (context) => const Profile()
         // Add more routes as needed
       }));
 }

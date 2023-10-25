@@ -1,8 +1,6 @@
-import 'package:app/services/storage_service.dart';
 import 'package:app/utils/app_colors.dart';
 import 'package:app/utils/classes/image_config.dart';
 import 'package:app/utils/general_enums.dart';
-import 'package:app/widgets/app.dart';
 import 'package:flutter/material.dart';
 
 class MiniGalleryImage extends StatefulWidget {
@@ -13,7 +11,7 @@ class MiniGalleryImage extends StatefulWidget {
   void Function()? onTap;
 
   MiniGalleryImage(
-      {this.isInList = false,
+      {super.key, this.isInList = false,
       this.index = 0,
       this.bucketProportion = 0,
       required this.image,
@@ -107,7 +105,7 @@ class _MiniGalleryImageState extends State<MiniGalleryImage> {
 
   ImageConfig _configIsInList() {
     //0: left, 1 right
-    ImageConfig imgConfig = ImageConfig(width: maxWidth / 2 - 3);
+    ImageConfig imgConfig = ImageConfig(width: maxWidth / 2 - 4);
     final SideIndex sideIndex =
         widget.index == 0 ? SideIndex.left : SideIndex.right;
     const double baseHeight = 190;

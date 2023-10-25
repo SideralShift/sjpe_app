@@ -41,6 +41,7 @@ class ToolBar extends StatelessWidget implements PreferredSizeWidget {
                       Navigator.pushNamed(context, '/profile');
                     },
                     child: UserProfileAvatar(
+                      isLoggedUser: true,
                       user: appContext.loggedUser
                     ),
                   ),

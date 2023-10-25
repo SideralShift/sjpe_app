@@ -1,5 +1,6 @@
 import 'package:app/utils/app_colors.dart';
-import 'package:app/widgets/Profile/profile.dart';
+import 'package:app/widgets/Profile/MyProfile/my_profile_screen.dart';
+import 'package:app/widgets/Profile/UserProfile/user_profile_screen.dart';
 import 'package:app/widgets/app.dart';
 import 'package:app/widgets/login.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,18 +19,27 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await initializeDateFormatting('es_ES', null);
-   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top], );
+  SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.manual,
+    overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
+  );
 
   final prefs = await SharedPreferences.getInstance();
   String? idToken = prefs.getString('idToken');
 
   runApp(MaterialApp(
-      theme: ThemeData(scaffoldBackgroundColor: AppStyles.mainBackgroundColor),
-      initialRoute: idToken != null ? '/app' : '/login',
-      routes: {
+    theme: ThemeData(scaffoldBackgroundColor: AppStyles.mainBackgroundColor),
+    initialRoute: idToken != null ? '/app' : '/login',
+    onGenerateRoute: (RouteSettings settings) {
+      var routes = <String, WidgetBuilder>{
+        '/': (context) => const LoginScreen(),
         '/login': (context) => const LoginScreen(),
         '/app': (context) => const App(),
-        '/profile': (context) => const Profile()
-        // Add more routes as needed
-      }));
+        '/myProfile': (context) => MyProfileScreen(arguments: settings.arguments as Map<String, dynamic>,),
+        '/profile': (context) => UserProfileScreen(arguments: settings.arguments as Map<String, dynamic>,)
+      };
+      WidgetBuilder builder = routes[settings.name]!;
+      return MaterialPageRoute(builder: (ctx) => builder(ctx));
+    },
+  ));
 }

@@ -28,13 +28,9 @@ class UserProfileAvatar extends StatelessWidget {
       child: Hero(
           tag: heroId,
           child: Center(
-            child: UserAvatar(
+            child: UserAvatar.fromUser(
               radius: radius,
-              foregroundImage: user.profilePictureImage != null
-                  ? Image.memory(
-                      (user.profilePictureImage?.data)!,
-                    ).image
-                  : null,
+              user: user,
             ),
           )),
     );

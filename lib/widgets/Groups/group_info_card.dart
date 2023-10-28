@@ -9,6 +9,13 @@ class GroupInfoCard extends StatelessWidget {
   Group group;
   bool isMainUserGroup;
   int minMemberAvatars = 3;
+  
+  // Define styles constants
+  static const double cardPadding = 22.0;
+  static const double avatarPaddingTop = 20.0;
+  static const double avatarSectionPaddingTop = 4.0;
+  static const double overlappedAvatarsWidth = 120.0;
+  static const double overlappedAvatarsHeight = 40.0;
 
   GroupInfoCard({required this.group, this.isMainUserGroup = false});
 
@@ -16,12 +23,11 @@ class GroupInfoCard extends StatelessWidget {
     List<Widget> avatarWidgets = [];
 
     for (var i = 0; i < minMemberAvatars; i++) {
-
       if (i <= group.members.length - 1) {
-        avatarWidgets.add(UserAvatar.fromStorage(
+        avatarWidgets.add(UserAvatar.fromUser(
           radius: 18,
-            image: group.members[i].profilePictureImage,
-          ));
+          user: group.members[i],
+        ));
       } else {
         avatarWidgets.add(UserAvatar(radius: 18));
       }
@@ -29,9 +35,10 @@ class GroupInfoCard extends StatelessWidget {
 
     int remainingMembersNum = group.members.length - minMemberAvatars;
     remainingMembersNum = remainingMembersNum < 0 ? 0 : remainingMembersNum;
-    
-    avatarWidgets.add(CircleAvatar(child: Text('$remainingMembersNum+'),));
 
+    avatarWidgets.add(CircleAvatar(
+      child: Text('$remainingMembersNum+'),
+    ));
 
     return OverlappingAvatars(
       overlapDistance: 25,
@@ -47,7 +54,7 @@ class GroupInfoCard extends StatelessWidget {
             AppStyles.cardsBorderRadius), // Adjust the radius as needed
       ),
       child: Padding(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.all(cardPadding),
         child: Column(
           children: [
             Row(
@@ -69,7 +76,6 @@ class GroupInfoCard extends StatelessWidget {
             ),
             Row(
               children: [
-                
                 isMainUserGroup
                     ? Text(
                         'Tu grupo',
@@ -83,35 +89,43 @@ class GroupInfoCard extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: EdgeInsets.only(top: 20),
+              padding: EdgeInsets.only(top: avatarPaddingTop),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
                     children: [
                       Text('Lider'),
-                      UserAvatar.fromStorage(
-                        radius: 18,
-                        image: group.leader?.profilePictureImage,
+                      Padding(
+                        padding: EdgeInsets.only(top: avatarSectionPaddingTop),
+                        child: UserAvatar.fromUser(
+                          radius: 18,
+                          user: group.leader
+                        ),
                       )
                     ],
                   ),
                   Column(
                     children: [
                       Text('Colider'),
-                      UserAvatar.fromStorage(
-                        radius: 18,
-                        image: group.coLeader?.profilePictureImage,
-                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: avatarSectionPaddingTop),
+                        child: UserAvatar.fromUser(
+                          radius: 18,
+                          user: group.coLeader,
+                        ),
+                      )
                     ],
                   ),
                   Column(
                     children: [
                       Text('Integrantes'),
-                      Container(
-                          height: 40,
-                          width: 120,
-                          child: buildOverlapedAvatars())
+                      Padding(
+                          padding: EdgeInsets.only(top: avatarSectionPaddingTop),
+                          child: Container(
+                              height: overlappedAvatarsHeight,
+                              width: overlappedAvatarsWidth,
+                              child: buildOverlapedAvatars()))
                     ],
                   )
                 ],

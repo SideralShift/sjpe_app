@@ -17,9 +17,9 @@ class ProfileHeader extends StatelessWidget {
       children: [
         Hero(
           tag: heroTag,
-          child: UserAvatar.fromStorage(
+          child: UserAvatar.fromUser(
             radius: 55,
-            image: user.profilePictureImage,
+            user: user,
           ),
         ),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [

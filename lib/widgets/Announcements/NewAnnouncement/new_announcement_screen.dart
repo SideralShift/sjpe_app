@@ -50,8 +50,8 @@ class NewAnnouncementScreen extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 14),
-                    child: UserAvatar.fromStorage(
-                      image: appContext.loggedUser.profilePictureImage,
+                    child: UserAvatar.fromUser(
+                      user: appContext.loggedUser,
                     ),
                   ),
                   Padding(

@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:app/models/role.dart';
 import 'package:app/models/user.dart';
 import 'package:app/services/storage_service.dart';
 import 'package:app/utils/env_constants.dart';
@@ -58,6 +60,23 @@ class UserService {
   }
 
   static Future<void> loadUserProfilePicture(UserModel user) async {
-    user.profilePictureImage = await StorageService.getImage(path: user.profilePictureUrl!);
+    user.profilePictureImage =
+        await StorageService.getImage(path: user.profilePictureUrl!);
+  }
+
+  static Future<List<Role>> getUserRoles(UserModel user) async {
+    String url =
+        '${dotenv.env[EnvConstants.sjpeApiServer]}/user/${user.id}/roles';
+    http.Response response = await http.get(Uri.parse(url));
+
+    if (response.body != '' && response.statusCode == HttpStatus.ok) {
+      List<dynamic> unSerializedRoles =
+          (jsonDecode(response.body) as List<dynamic>)
+              .map((userRole) => userRole['role'])
+              .toList();
+      return unSerializedRoles.map((e) => Role.fromJson(e)).toList();
+    }
+
+    return [];
   }
 }

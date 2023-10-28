@@ -29,7 +29,7 @@ Future<void> main() async {
 
   runApp(MaterialApp(
     theme: ThemeData(scaffoldBackgroundColor: AppStyles.mainBackgroundColor),
-    initialRoute: idToken != null ? '/app' : '/login',
+    home: idToken != null ? const App() : const LoginScreen(),
     onGenerateRoute: (RouteSettings settings) {
       var routes = <String, WidgetBuilder>{
         '/': (context) => const LoginScreen(),

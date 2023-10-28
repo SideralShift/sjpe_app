@@ -14,7 +14,7 @@ class UserProfileAvatar extends StatelessWidget {
       required this.user,
       this.radius = 20,
       this.foregroundImage,
-      this.isLoggedUser = false});
+    this.isLoggedUser = false});
 
   @override
   Widget build(BuildContext context) {

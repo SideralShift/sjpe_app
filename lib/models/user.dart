@@ -14,7 +14,7 @@ class UserModel {
   final Role? mainRole;
 
   @JsonKey(defaultValue: [])
-  final List<String> roles;
+  List<Role> roles;
   String? profilePictureUrl;
 
   //Util fields, these are not originally part of the model
@@ -36,4 +36,10 @@ class UserModel {
   /// to JSON. The implementation simply calls the private, generated
   /// helper method `_$UserModelToJson`.
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is UserModel && other.id == id;
+  }
 }

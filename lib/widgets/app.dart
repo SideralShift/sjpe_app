@@ -1,11 +1,11 @@
 import 'package:app/widgets/Announcements/announcements_context.dart';
 import 'package:app/widgets/Announcements/announcements_screen.dart';
 import 'package:app/widgets/Announcements/NewAnnouncement/new_announcement.dart';
+import 'package:app/widgets/Groups/groups_screen.dart';
 import 'package:app/widgets/app_context.dart';
 import 'package:app/widgets/tool_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -51,7 +51,14 @@ class _AppState extends State<AppController> {
       ),
       "floatingButton": const NewAnnouncementDialog()
     },
-    {"toolbar": const ToolBar(), "body": const Text('Grupos page')},
+    {
+      "toolbar": const ToolBar(),
+      "body": Consumer<AppContext>(
+        builder: (context, appContext, child) => GroupsScreen(
+          appContext: appContext,
+        ),
+      )
+    },
     {"toolbar": const ToolBar(), "body": const Text('Calendario page')},
     {"toolbar": const ToolBar(), "body": const Text('Mas page')}
   ];

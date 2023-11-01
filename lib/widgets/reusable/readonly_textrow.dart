@@ -17,10 +17,12 @@ class ReadOnlyTextRow extends StatelessWidget {
             label,
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
           ),
-          Text(
+          SizedBox(width: 40,),
+          Expanded(child: Text(
             text ?? '',
             style: const TextStyle(color: Colors.black54, fontSize: 16),
-          )
+            textAlign: TextAlign.right,
+          ))
         ],
       ),
     );

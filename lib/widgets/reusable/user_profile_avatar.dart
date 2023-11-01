@@ -6,14 +6,12 @@ import 'package:uuid/uuid.dart';
 class UserProfileAvatar extends StatelessWidget {
   final UserModel user;
   final double radius;
-  final ImageProvider? foregroundImage;
   final bool isLoggedUser;
 
   const UserProfileAvatar(
       {super.key,
       required this.user,
       this.radius = 20,
-      this.foregroundImage,
     this.isLoggedUser = false});
 
   @override

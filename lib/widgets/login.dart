@@ -46,7 +46,7 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   LoginValidationStates _validateForm(BuildContext context) {
-    if (!ValidationsUtils.isValidEmail(_emailController.text)) {
+    if (!ValidationsUtils.isValidEmail(_emailController.text.trim())) {
       return _emailFocusNode.hasFocus
           ? LoginValidationStates.invalidEmailFocused
           : LoginValidationStates.invalidEmailNotFocused;

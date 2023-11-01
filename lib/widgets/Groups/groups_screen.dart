@@ -1,17 +1,11 @@
-import 'dart:convert';
 
 import 'package:app/models/group.dart';
-import 'package:app/models/role.dart';
 import 'package:app/models/user.dart';
 import 'package:app/services/group_service.dart';
 import 'package:app/services/user_service.dart';
-import 'package:app/utils/app_colors.dart';
-import 'package:app/widgets/Announcements/announcements_context.dart';
 import 'package:app/widgets/Groups/group_info_card.dart';
 import 'package:app/widgets/app_context.dart';
-import 'package:app/widgets/reusable/user_avatar.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class GroupsScreen extends StatefulWidget {
   final AppContext appContext;
@@ -43,7 +37,10 @@ class GroupScreenState extends State<GroupsScreen>
 
       retrievedGroups.forEach(
           (group) => profilePicFutures.addAll(group.members.map((member) {
-                return UserService.loadUserProfilePicture(member);
+                return UserService.loadUserProfilePicture(member)
+                    .catchError((error) {
+                  print(error);
+                });
               })));
 
       await Future.wait(profilePicFutures);
@@ -52,6 +49,8 @@ class GroupScreenState extends State<GroupsScreen>
 
       for (Group group in retrievedGroups) {
         if (group.members.contains(widget.appContext.loggedUser)) {
+          retrievedGroups.remove(group);
+          retrievedGroups.insert(0, group);
           foundMainUserGroupId = group.id!;
           break;
         }
@@ -86,7 +85,12 @@ class GroupScreenState extends State<GroupsScreen>
     return FractionallySizedBox(
       widthFactor: 0.98,
       child: ListView(
-        children: groups.map((e) => GroupInfoCard(group: e, isMainUserGroup: e.id == mainUserGroupId,)).toList(),
+        children: groups
+            .map((e) => GroupInfoCard(
+                  group: e,
+                  isMainUserGroup: e.id == mainUserGroupId,
+                ))
+            .toList(),
       ),
     );
   }

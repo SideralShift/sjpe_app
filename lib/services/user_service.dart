@@ -12,7 +12,7 @@ class UserService {
     String url = '${dotenv.env[EnvConstants.sjpeApiServer]}/user/$id';
     http.Response response = await http.get(Uri.parse(url));
     if (response.body != '') {
-      return UserModel.fromJson(jsonDecode(response.body));
+      return UserModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>);
     }
     return null;
   }

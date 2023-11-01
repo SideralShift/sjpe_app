@@ -31,6 +31,7 @@ class UserAvatar extends StatelessWidget {
   factory UserAvatar.fromUser(
       {UserModel? user, double radius = 20, String? tooltipMessage}) {
     UserAvatar avatar = UserAvatar._fromStorage(
+      radius: radius,
       image: user?.profilePictureImage,
       tooltipMessage: user?.person.getShortName(),
     );

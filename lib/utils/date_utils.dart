@@ -10,4 +10,10 @@ class DateUtil {
     final formatter = DateFormat('dd MMM', locale);
     return formatter.format(dateTime).toUpperCase();
   }
+
+  static String formatBirthdate2(DateTime? dateTime, String locale) {
+    if (dateTime == null) return ''; 
+    final formatter = DateFormat('dd MMM yyyy', locale);
+    return formatter.format(dateTime).toUpperCase();
+  }
 }

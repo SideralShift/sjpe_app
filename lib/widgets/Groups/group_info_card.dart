@@ -1,5 +1,6 @@
 import 'package:app/models/group.dart';
 import 'package:app/models/user.dart';
+import 'package:app/widgets/reusable/user_profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:app/utils/app_colors.dart';
 import 'package:app/widgets/reusable/user_avatar.dart';
@@ -13,7 +14,7 @@ class GroupInfoCard extends StatelessWidget {
   // Define styles constants
   static const double cardPadding = 22.0;
   static const double avatarPaddingTop = 20.0;
-  static const double avatarSectionPaddingTop = 4.0;
+  static const double avatarSectionPaddingTop = 6.0;
   static const double overlappedAvatarsWidth = 120.0;
   static const double overlappedAvatarsHeight = 40.0;
 
@@ -24,7 +25,7 @@ class GroupInfoCard extends StatelessWidget {
 
     for (var i = 0; i < minMemberAvatars; i++) {
       if (i <= group.members.length - 1) {
-        avatarWidgets.add(UserAvatar.fromUser(
+        avatarWidgets.add(UserProfileAvatar(
           radius: 18,
           user: group.members[i],
         ));
@@ -48,7 +49,7 @@ class GroupInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return InkWell(onTap: (){print('MMMH');}, child: Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(
             AppStyles.cardsBorderRadius), // Adjust the radius as needed
@@ -98,10 +99,10 @@ class GroupInfoCard extends StatelessWidget {
                       Text('Lider'),
                       Padding(
                         padding: EdgeInsets.only(top: avatarSectionPaddingTop),
-                        child: UserAvatar.fromUser(
+                        child: group.leader != null ? UserProfileAvatar(
                           radius: 18,
-                          user: group.leader
-                        ),
+                          user: group.leader!
+                        ) : UserAvatar(),
                       )
                     ],
                   ),
@@ -110,10 +111,10 @@ class GroupInfoCard extends StatelessWidget {
                       Text('Colider'),
                       Padding(
                         padding: EdgeInsets.only(top: avatarSectionPaddingTop),
-                        child: UserAvatar.fromUser(
+                        child: group.coLeader != null ? UserProfileAvatar(
                           radius: 18,
-                          user: group.coLeader,
-                        ),
+                          user: group.coLeader!,
+                        ) : UserAvatar(),
                       )
                     ],
                   ),
@@ -134,7 +135,7 @@ class GroupInfoCard extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ),) ;
   }
 }
 

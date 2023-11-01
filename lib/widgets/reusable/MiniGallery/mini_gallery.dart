@@ -31,12 +31,12 @@ class MiniGallery extends StatelessWidget {
       return _render3(bucketProportion, context);
     }
 
-    return MiniGalleryImage(
+    return images.length > 0 ? MiniGalleryImage(
       onTap: () {
         _showPhotoViewer(context, 0);
       },
       image: images[0],
-    );
+    ) : Container();
   }
 
   Widget _render2(double bucketProportion, BuildContext context) {

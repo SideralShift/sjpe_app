@@ -32,7 +32,7 @@ class AuthService {
 
   static Future<AuthResult> logginUser(UserModel user) async {
     try {
-      final email = user.person?.email ?? '';
+      final email = user.person.email ?? '';
       final password = user.password ?? '';
 
       final credential = await FirebaseAuth.instance

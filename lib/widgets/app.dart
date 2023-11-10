@@ -1,6 +1,7 @@
 import 'package:app/widgets/Announcements/announcements_context.dart';
 import 'package:app/widgets/Announcements/announcements_screen.dart';
 import 'package:app/widgets/Announcements/NewAnnouncement/new_announcement.dart';
+import 'package:app/widgets/Calendar/calendar_screen.dart';
 import 'package:app/widgets/Groups/groups_screen.dart';
 import 'package:app/widgets/app_context.dart';
 import 'package:app/widgets/tool_bar.dart';
@@ -59,7 +60,7 @@ class _AppState extends State<AppController> {
         ),
       )
     },
-    {"toolbar": const ToolBar(), "body": const Text('Calendario page')},
+    {"toolbar": const ToolBar(), "body": CalendarScreen()},
     {"toolbar": const ToolBar(), "body": const Text('Mas page')}
   ];
 

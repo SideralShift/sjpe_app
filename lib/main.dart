@@ -15,7 +15,6 @@ Future<void> main() async {
   await dotenv.load(fileName: "lib/assets/dev.env");
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    name: 'sjpe-48ba5',
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await initializeDateFormatting('es_ES', null);

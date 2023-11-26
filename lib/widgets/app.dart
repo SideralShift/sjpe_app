@@ -2,7 +2,11 @@ import 'package:app/widgets/Announcements/announcements_context.dart';
 import 'package:app/widgets/Announcements/announcements_screen.dart';
 import 'package:app/widgets/Announcements/NewAnnouncement/new_announcement.dart';
 import 'package:app/widgets/Calendar/calendar_screen.dart';
+import 'package:app/widgets/Groups/complete_rol_screen.dart';
+import 'package:app/widgets/Groups/groups_context.dart';
 import 'package:app/widgets/Groups/groups_screen.dart';
+import 'package:app/widgets/Groups/groups_toolbar.dart';
+import 'package:app/widgets/Menu/menu_screen.dart';
 import 'package:app/widgets/app_context.dart';
 import 'package:app/widgets/tool_bar.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +20,8 @@ class App extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AnnouncementsContext()),
-        ChangeNotifierProvider(create: (context) => AppContext())
+        ChangeNotifierProvider(create: (context) => AppContext()),
+        ChangeNotifierProvider(create: (context) => GroupsContext())
       ],
       child: const AppController(),
     );
@@ -53,15 +58,18 @@ class _AppState extends State<AppController> {
       "floatingButton": const NewAnnouncementDialog()
     },
     {
-      "toolbar": const ToolBar(),
-      "body": Consumer<AppContext>(
-        builder: (context, appContext, child) => GroupsScreen(
+      "toolbar": GroupsToolBar(),
+      "body": Consumer2(
+        builder: (context, AppContext appContext, GroupsContext groupsContext,
+                child) =>
+            GroupsScreen(
           appContext: appContext,
+          groupsContext: groupsContext,
         ),
       )
     },
     {"toolbar": const ToolBar(), "body": CalendarScreen()},
-    {"toolbar": const ToolBar(), "body": const Text('Mas page')}
+    {"toolbar": const ToolBar(), "body": MenuScreen()}
   ];
 
   void _onNavBarTap(int index) {

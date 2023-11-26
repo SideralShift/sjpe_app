@@ -9,9 +9,10 @@ part of 'group.dart';
 Group _$GroupFromJson(Map<String, dynamic> json) => Group(
       id: json['id'] as int?,
       name: json['name'] as String,
-      members: (json['members'] as List<dynamic>)
-          .map((e) => UserModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      members: (json['members'] as List<dynamic>?)
+              ?.map((e) => UserModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
       leader: json['leader'] == null
           ? null
           : UserModel.fromJson(json['leader'] as Map<String, dynamic>),

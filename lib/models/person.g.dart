@@ -19,6 +19,7 @@ Person _$PersonFromJson(Map<String, dynamic> json) => Person(
       address: json['address'] == null
           ? null
           : Address.fromJson(json['address'] as Map<String, dynamic>),
+      gender: json['gender'] as int? ?? 1,
     )..middleName = json['middleName'] as String?;
 
 Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
@@ -31,4 +32,5 @@ Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
       'birthdate': instance.birthdate?.toIso8601String(),
       'age': instance.age,
       'address': instance.address?.toJson(),
+      'gender': instance.gender,
     };

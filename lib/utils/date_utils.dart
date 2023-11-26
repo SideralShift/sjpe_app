@@ -20,7 +20,7 @@ class DateUtil {
   static String getHour(DateTime? dateTime, String locale) {
     if (dateTime == null) return '';
     final formatter = DateFormat('h:mm a', locale);
-    String formattedTime = formatter.format(dateTime);
+    String formattedTime = formatter.format(dateTime.toLocal());
 
     // Replace "P.M." with "PM" and "A.M." with "AM"
     formattedTime =

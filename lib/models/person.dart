@@ -14,6 +14,7 @@ class Person {
   DateTime? birthdate;
   int? age;
   Address? address;
+  int gender;
 
   Person(
       {this.id,
@@ -23,17 +24,18 @@ class Person {
       this.phoneNumber,
       this.birthdate,
       this.age,
-      this.address});
+      this.address,
+      this.gender = 1});
 
   factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
 
   Map<String, dynamic> toJson() => _$PersonToJson(this);
 
-  getShortName()=> '$name ${getFirstLastName()}';
+  getShortName() => '$name ${getFirstLastName()}';
 
-  getFullName()=> '$name $lastName';
+  getFullName() => '$name $lastName';
 
   getFirstLastName() => lastName?.split(' ').first;
 
-  getNames()=> '$name $middleName';
+  getNames() => '$name $middleName';
 }

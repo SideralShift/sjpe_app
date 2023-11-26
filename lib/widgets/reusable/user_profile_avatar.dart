@@ -12,7 +12,7 @@ class UserProfileAvatar extends StatelessWidget {
       {super.key,
       required this.user,
       this.radius = 20,
-    this.isLoggedUser = false});
+      this.isLoggedUser = false});
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +25,9 @@ class UserProfileAvatar extends StatelessWidget {
       },
       child: Hero(
           tag: heroId,
-          child: Center(
-            child: UserAvatar.fromUser(
-              radius: radius,
-              user: user,
-            ),
+          child: UserAvatar.fromUser(
+            radius: radius,
+            user: user,
           )),
     );
   }

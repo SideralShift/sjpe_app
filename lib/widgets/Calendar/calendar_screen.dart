@@ -18,7 +18,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
   @override
   void initState() {
     super.initState();
-    activitiesFuture = ActivityService.getActivitiesByMonth(8);
+    activitiesFuture =
+        ActivityService.getActivitiesByMonth(monthController.value);
     monthController.addListener(updateActivities);
   }
 
@@ -27,6 +28,29 @@ class _CalendarScreenState extends State<CalendarScreen> {
       activitiesFuture =
           ActivityService.getActivitiesByMonth(monthController.value);
     });
+  }
+
+  calculateCurrentActivityPosition(List<List<Activity>> groupedActivities) {
+    double position = 0;
+    double offset = 30;
+
+    if (groupedActivities.isNotEmpty &&
+        DateTime.now().month == groupedActivities[0].first.date.month) {
+      for (int i = 0; i <= groupedActivities.length - 1; i++) {
+        if (i == groupedActivities.length - 1 ||
+            groupedActivities[i + 1].first.date.day > DateTime.now().day) {
+          return position;
+        }
+
+        position += groupedActivities[i].length * tileHeight + offset;
+
+        if (groupedActivities[i + 1].first.date.day == DateTime.now().day) {
+          return position;
+        }
+      }
+    }
+
+    return position;
   }
 
   @override
@@ -49,7 +73,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
               } else {
                 List<List<Activity>> groupedActivities =
                     Activity.groupActivitiesByDay(snapshot.data!);
+
                 return ListView(
+                  controller: ScrollController(
+                      initialScrollOffset:
+                          calculateCurrentActivityPosition(groupedActivities)),
                   children: groupedActivities
                       .map((activities) => ActivitiesSection(
                             tileHeight: tileHeight,

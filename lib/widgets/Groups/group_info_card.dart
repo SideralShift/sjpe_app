@@ -1,4 +1,5 @@
 import 'package:app/models/group.dart';
+import 'package:app/models/group_schedule.dart';
 import 'package:app/models/user.dart';
 import 'package:app/widgets/reusable/user_profile_avatar.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,8 @@ class GroupInfoCard extends StatelessWidget {
   Group group;
   bool isMainUserGroup;
   int minMemberAvatars = 3;
-  
+  final GroupSchedule groupSchedule;
+
   // Define styles constants
   static const double cardPadding = 22.0;
   static const double avatarPaddingTop = 20.0;
@@ -18,7 +20,10 @@ class GroupInfoCard extends StatelessWidget {
   static const double overlappedAvatarsWidth = 120.0;
   static const double overlappedAvatarsHeight = 40.0;
 
-  GroupInfoCard({required this.group, this.isMainUserGroup = false});
+  GroupInfoCard(
+      {required this.group,
+      this.isMainUserGroup = false,
+      required this.groupSchedule});
 
   buildOverlapedAvatars() {
     List<Widget> avatarWidgets = [];
@@ -49,93 +54,103 @@ class GroupInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(onTap: (){print('MMMH');}, child: Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(
-            AppStyles.cardsBorderRadius), // Adjust the radius as needed
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(cardPadding),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  group.name,
-                  style: GoogleFonts.roboto(
-                      textStyle:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
-                ),
-                Text(
-                  'PENDING',
-                  style: GoogleFonts.poppins(
-                      textStyle:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w300)),
-                )
-              ],
-            ),
-            Row(
-              children: [
-                isMainUserGroup
-                    ? Text(
-                        'Tu grupo',
-                        style: GoogleFonts.roboto(
-                            textStyle: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.orange)),
-                      )
-                    : Container()
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: avatarPaddingTop),
-              child: Row(
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, '/complete/group', arguments: group);
+      },
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+              AppStyles.cardsBorderRadius), // Adjust the radius as needed
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(cardPadding),
+          child: Column(
+            children: [
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    children: [
-                      Text('Lider'),
-                      Padding(
-                        padding: EdgeInsets.only(top: avatarSectionPaddingTop),
-                        child: group.leader != null ? UserProfileAvatar(
-                          radius: 18,
-                          user: group.leader!
-                        ) : UserAvatar(),
-                      )
-                    ],
+                  Text(
+                    group.name,
+                    style: GoogleFonts.roboto(
+                        textStyle: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600)),
                   ),
-                  Column(
-                    children: [
-                      Text('Colider'),
-                      Padding(
-                        padding: EdgeInsets.only(top: avatarSectionPaddingTop),
-                        child: group.coLeader != null ? UserProfileAvatar(
-                          radius: 18,
-                          user: group.coLeader!,
-                        ) : UserAvatar(),
-                      )
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Text('Integrantes'),
-                      Padding(
-                          padding: EdgeInsets.only(top: avatarSectionPaddingTop),
-                          child: Container(
-                              height: overlappedAvatarsHeight,
-                              width: overlappedAvatarsWidth,
-                              child: buildOverlapedAvatars()))
-                    ],
+                  Text(
+                    groupSchedule.role.description!,
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w300)),
                   )
                 ],
               ),
-            ),
-          ],
+              Row(
+                children: [
+                  isMainUserGroup
+                      ? Text(
+                          'Tu grupo',
+                          style: GoogleFonts.roboto(
+                              textStyle: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.orange)),
+                        )
+                      : Container()
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: avatarPaddingTop),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        Text('Lider'),
+                        Padding(
+                          padding:
+                              EdgeInsets.only(top: avatarSectionPaddingTop),
+                          child: group.leader != null
+                              ? UserProfileAvatar(
+                                  radius: 18, user: group.leader!)
+                              : UserAvatar(),
+                        )
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Text('Colider'),
+                        Padding(
+                          padding:
+                              EdgeInsets.only(top: avatarSectionPaddingTop),
+                          child: group.coLeader != null
+                              ? UserProfileAvatar(
+                                  radius: 18,
+                                  user: group.coLeader!,
+                                )
+                              : UserAvatar(),
+                        )
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Text('Integrantes'),
+                        Padding(
+                            padding:
+                                EdgeInsets.only(top: avatarSectionPaddingTop),
+                            child: Container(
+                                height: overlappedAvatarsHeight,
+                                width: overlappedAvatarsWidth,
+                                child: buildOverlapedAvatars()))
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-    ),) ;
+    );
   }
 }
 

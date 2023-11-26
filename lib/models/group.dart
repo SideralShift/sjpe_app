@@ -8,6 +8,7 @@ class Group {
 
   final String name;
 
+  @JsonKey(defaultValue: [])
   List<UserModel> members = [];
   UserModel? leader;
   UserModel? coLeader;

@@ -8,11 +8,25 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class UserService {
+  static Future<List<UserModel>> getAllUsers() async {
+    String url = '${dotenv.env[EnvConstants.sjpeApiServer]}/users';
+    http.Response response = await http.get(Uri.parse(url));
+    if (response.body != '') {
+      final List<dynamic> jsonData =
+          jsonDecode(utf8.decode(response.bodyBytes));
+      List<UserModel> users =
+          jsonData.map((element) => UserModel.fromJson(element)).toList();
+      return users;
+    }
+    return [];
+  }
+
   static Future<UserModel?> getUserByIdSJPE(String id) async {
     String url = '${dotenv.env[EnvConstants.sjpeApiServer]}/user/$id';
     http.Response response = await http.get(Uri.parse(url));
     if (response.body != '') {
-      return UserModel.fromJson(jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>);
+      return UserModel.fromJson(
+          jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>);
     }
     return null;
   }

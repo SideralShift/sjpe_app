@@ -1,16 +1,19 @@
-
 import 'package:app/models/group.dart';
+import 'package:app/models/group_schedule.dart';
 import 'package:app/models/user.dart';
+import 'package:app/services/group_schedule_service.dart';
 import 'package:app/services/group_service.dart';
 import 'package:app/services/user_service.dart';
 import 'package:app/widgets/Groups/group_info_card.dart';
+import 'package:app/widgets/Groups/groups_context.dart';
 import 'package:app/widgets/app_context.dart';
 import 'package:flutter/material.dart';
 
 class GroupsScreen extends StatefulWidget {
   final AppContext appContext;
+  final GroupsContext groupsContext;
 
-  GroupsScreen({required this.appContext});
+  GroupsScreen({required this.appContext, required this.groupsContext});
 
   @override
   State<StatefulWidget> createState() {
@@ -20,82 +23,56 @@ class GroupsScreen extends StatefulWidget {
 
 class GroupScreenState extends State<GroupsScreen>
     with AutomaticKeepAliveClientMixin<GroupsScreen> {
-  List<Group> groups = [];
-  int mainUserGroupId = 0;
-
   @override
   void initState() {
     super.initState();
-    _fetchGroupsAndRoles();
+    widget.groupsContext.startFetchingData(widget.appContext.loggedUser);
   }
 
-  _fetchGroupsAndRoles() async {
-    try {
-      List<Group> retrievedGroups = await GroupService.getAllGroupsMembers();
-      List<Future<void>> profilePicFutures = [];
-      int foundMainUserGroupId = 0;
-
-      retrievedGroups.forEach(
-          (group) => profilePicFutures.addAll(group.members.map((member) {
-                return UserService.loadUserProfilePicture(member)
-                    .catchError((error) {
-                  print(error);
-                });
-              })));
-
-      await Future.wait(profilePicFutures);
-
-      retrievedGroups.forEach(setGroupLeadersProfilePic);
-
-      for (Group group in retrievedGroups) {
-        if (group.members.contains(widget.appContext.loggedUser)) {
-          retrievedGroups.remove(group);
-          retrievedGroups.insert(0, group);
-          foundMainUserGroupId = group.id!;
-          break;
-        }
+  GroupSchedule? findRoleByGroupAndMonth(Group group, int month) {
+    // Assuming you have a list of group schedules
+    for (GroupSchedule schedule in widget.groupsContext.groupSchedules) {
+      if (schedule.group.id == group.id && schedule.month == month) {
+        return schedule;
       }
-
-      setState(() {
-        groups = retrievedGroups;
-        mainUserGroupId = foundMainUserGroupId;
-      }); // Rebuild the widget with the new data.
-    } catch (e) {
-      print('Error fetching groups and roles: $e');
-      // Handle or show error as necessary
     }
-  }
-
-  setGroupLeadersProfilePic(Group group) {
-    if (group.leader != null) {
-      UserModel member =
-          group.members.firstWhere((member) => member.id == group.leader?.id);
-      group.leader?.profilePictureImage = member.profilePictureImage;
-    }
-
-    if (group.coLeader != null) {
-      UserModel member =
-          group.members.firstWhere((member) => member.id == group.coLeader?.id);
-      group.coLeader?.profilePictureImage = member.profilePictureImage;
-    }
+    return null;
   }
 
   @override
   Widget build(BuildContext context) {
-    return FractionallySizedBox(
-      widthFactor: 0.98,
-      child: ListView(
-        children: groups
-            .map((e) => GroupInfoCard(
-                  group: e,
-                  isMainUserGroup: e.id == mainUserGroupId,
-                ))
-            .toList(),
-      ),
+    super.build(
+        context); // With AutomaticKeepAliveClientMixin, you need to call super.build
+
+    return FutureBuilder(
+      future: widget.groupsContext
+          .fetchingDataTask, // This is the future that FutureBuilder waits on
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (snapshot.connectionState == ConnectionState.done) {
+          return FractionallySizedBox(
+            widthFactor: 0.98,
+            child: ListView(
+              children: widget.groupsContext.groups
+                  .map((e) => GroupInfoCard(
+                    groupSchedule: findRoleByGroupAndMonth(e, DateTime.now().month)!,
+                        group: e,
+                        isMainUserGroup:
+                            e.id == widget.groupsContext.mainUserGroupId,
+                      ))
+                  .toList(),
+            ),
+          );
+        } else {
+          return Center(child: Text('No groups found'));
+        }
+      },
     );
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }

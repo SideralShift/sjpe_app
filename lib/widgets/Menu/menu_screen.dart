@@ -28,8 +28,8 @@ class MenuScreen extends StatelessWidget {
             MenuSection(
               title: 'Administración',
               items: [
-                MenuItem(name: 'Comisiones', iconData: Icons.assignment),
-                MenuItem(name: 'Organigrama', iconData: Icons.cake),
+                MenuItem(name: 'Comisiones', iconData: Icons.assignment, route: '/commissions'),
+                MenuItem(name: 'Organigrama', imagePath: 'lib/assets/organization_chart.png', route: '/organization/chart'),
                 // Add more items as needed
               ],
             ),

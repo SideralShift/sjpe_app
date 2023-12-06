@@ -1,8 +1,11 @@
 import 'package:app/models/group.dart';
 import 'package:app/utils/app_colors.dart';
 import 'package:app/widgets/Birthdays/birthday_screen.dart';
+import 'package:app/widgets/Commissions/commissions_screen.dart';
 import 'package:app/widgets/Groups/complete_group_screen.dart';
 import 'package:app/widgets/Members/members_screen.dart';
+import 'package:app/widgets/OrganizationChart/organization_chart.dart';
+import 'package:app/widgets/OrganizationChart/organization_chart_screen.dart';
 import 'package:app/widgets/Profile/MyProfile/my_profile_screen.dart';
 import 'package:app/widgets/Profile/UserProfile/user_profile_screen.dart';
 import 'package:app/widgets/app.dart';
@@ -42,7 +45,9 @@ Future<void> main() async {
         '/profile': (context) => UserProfileScreen(arguments: settings.arguments as Map<String, dynamic>,),
         '/complete/group': (context) => CompleteGroupScreen(group: settings.arguments as Group),
         '/members': (context) => MembersScreen(),
-        '/birthdays': (context) => BirthdayScreen()
+        '/birthdays': (context) => BirthdayScreen(),
+        '/commissions': (context) => CommissionsScreen(),
+        '/organization/chart': (context) => OrganizationChartScreen()
       };
       WidgetBuilder builder = routes[settings.name]!;
       return MaterialPageRoute(builder: (ctx) => builder(ctx));

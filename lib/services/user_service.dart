@@ -34,10 +34,11 @@ class UserService {
   static Future<List<UserModel>> getUsersBirthdays() async {
     try {
       final response = await http.get(Uri.parse(
-          '${dotenv.env[EnvConstants.sjpeApiServer]}/users/birthdays?month=${DateTime.now().month}'));
+          '${dotenv.env[EnvConstants.sjpeApiServer]}/users/birthdays'));
 
       if (response.statusCode == 200) {
-        final List<dynamic> jsonData = json.decode(response.body);
+        final List<dynamic> jsonData =
+            json.decode(utf8.decode(response.bodyBytes));
         final List<UserModel> users = jsonData.map((data) {
           return UserModel.fromJson(data);
         }).toList();
@@ -52,25 +53,24 @@ class UserService {
     }
   }
 
-  static List<UserModel> orderBirthdays(List<UserModel> users) {
-    // Filtrar usuarios que cumplen anos
-    final todayUsers = users.where((user) {
-      final userBirthDate = user.person?.birthdate;
-      return userBirthDate?.day == DateTime.now().day &&
-          userBirthDate?.month == DateTime.now().month;
-    }).toList();
+  static Map<int, List<UserModel>> groupUsersBirthdays(List<UserModel> users) {
+    Map<int, List<UserModel>> grouped = {};
 
-    // Filtrar usuarios que no cumplen anos
-    final otherUsers = users.where((user) {
-      final userBirthDate = user.person?.birthdate;
-      return userBirthDate?.day != DateTime.now().day ||
-          userBirthDate?.month != DateTime.now().month;
-    }).toList();
+    for (var user in users) {
+      // Get the birth month of the user
+      int birthMonth = (user.person.birthdate?.month)!;
 
-    // Combinar las dos listas ordenadas
-    final sortedUsers = [...todayUsers, ...otherUsers];
+      // Check if the month already exists in the map
+      if (!grouped.containsKey(birthMonth)) {
+        // If not, create a new list for this month
+        grouped[birthMonth] = [];
+      }
 
-    return sortedUsers;
+      // Add the user to the appropriate list
+      grouped[birthMonth]!.add(user);
+    }
+
+    return grouped;
   }
 
   static Future<void> loadUserProfilePicture(UserModel user) async {
